@@ -3,7 +3,7 @@ import { BackHandler, FlatList, FlatListProps } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import {
-	NETWORK_LIST,
+	SUBSTRATE_NETWORK_LIST,
 	SubstrateNetworkKeys,
 	UnknownNetworkKeys
 } from 'constants/networkSpecs';
@@ -15,7 +15,6 @@ import { AlertStateContext } from 'stores/alertContext';
 import colors from 'styles/colors';
 import {
 	isEthereumNetworkParams,
-	isSubstrateNetworkParams,
 	NetworkParams,
 	SubstrateNetworkParams
 } from 'types/networkSpecsTypes';
@@ -25,7 +24,6 @@ import { withCurrentIdentity } from 'utils/HOC';
 import { getExistedNetworkKeys, getIdentityName } from 'utils/identitiesUtils';
 import {
 	navigateToPathDetails,
-	navigateToPathsList,
 	unlockSeedPhrase,
 	useUnlockSeed
 } from 'utils/navigationHelpers';
@@ -123,19 +121,6 @@ function NetworkSelector({
 		}
 	};
 
-	const deriveEthereumAccount = async (networkKey: string): Promise<void> => {
-		await unlockSeedPhrase(navigation, seedRefHooks.isSeedRefValid);
-		try {
-			await accountsStore.deriveEthereumAccount(
-				seedRefHooks.brainWalletAddress,
-				networkKey
-			);
-			navigateToPathsList(navigation, networkKey);
-		} catch (e) {
-			alertPathDerivationError(setAlert, e.message);
-		}
-	};
-
 	const getListOptions = (): Partial<FlatListProps<any>> => {
 		if (isNew) return {};
 		if (shouldShowMoreNetworks) {
@@ -183,14 +168,10 @@ function NetworkSelector({
 
 	const onNetworkChosen = async (
 		networkKey: string,
-		networkParams: NetworkParams
+		networkParams: SubstrateNetworkParams
 	): Promise<void> => {
 		if (isNew || shouldShowMoreNetworks) {
-			if (isSubstrateNetworkParams(networkParams)) {
-				await deriveSubstrateNetworkRootPath(networkKey, networkParams);
-			} else {
-				await deriveEthereumAccount(networkKey);
-			}
+			await deriveSubstrateNetworkRootPath(networkKey, networkParams);
 		} else {
 			navigation.navigate('PathsList', { networkKey });
 		}
@@ -200,13 +181,15 @@ function NetworkSelector({
 		() => getExistedNetworkKeys(currentIdentity),
 		[currentIdentity]
 	);
-	const networkList = Object.entries(NETWORK_LIST).filter(filterNetworkKeys);
+	const networkList = Object.entries(SUBSTRATE_NETWORK_LIST).filter(
+		filterNetworkKeys
+	);
 	networkList.sort(sortNetworkKeys);
 
 	const renderNetwork = ({
 		item
 	}: {
-		item: [string, NetworkParams];
+		item: [string, SubstrateNetworkParams];
 	}): ReactElement => {
 		const [networkKey, networkParams] = item;
 		const networkIndexSuffix = isEthereumNetworkParams(networkParams)

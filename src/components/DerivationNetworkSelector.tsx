@@ -32,7 +32,7 @@ if (!__DEV__) {
 	excludedNetworks.push(SubstrateNetworkKeys.KUSAMA_DEV);
 }
 
-export function NetworkSelector({
+export function DerivationNetworkSelector({
 	networkKey,
 	setVisible
 }: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native';
 
-import iconLogo from 'res/img/icon.png';
+import iconLogo from 'res/img/litentry.png';
 import colors from 'styles/colors';
 import fonts from 'styles/fonts';
 
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 	logo: {
 		height: 24,
 		marginLeft: -8,
-		marginTop: -5,
+		marginTop: 5,
 		width: 24
 	},
 	t_bold: {
