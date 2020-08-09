@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 
-/* eslint-disable sort-keys */
 const unitMap: {
 	[key: string]: string;
 } = {

@@ -4,7 +4,7 @@ const commonRules = {
   "object-curly-spacing": ["error", "always"],
   "quotes": ["error", "single",  { "avoidEscape": true }],
   "react-native/no-inline-styles": "off",
-  "sort-keys": ["error", "asc", {"caseSensitive": true, "natural": false, "minKeys": 2}],
+  "sort-keys": "off",
   "import/order": ["error", {
     "newlines-between": "always"
   }]

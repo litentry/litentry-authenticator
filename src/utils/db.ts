@@ -26,6 +26,7 @@ export async function loadIdentities(version = 4): Promise<Identity[]> {
 			identitiesStore
 		);
 		if (!identities) return [];
+		console.log('identities are', deserializeIdentities(identities));
 		return deserializeIdentities(identities);
 	} catch (e) {
 		return handleError(e);

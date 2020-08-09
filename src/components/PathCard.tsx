@@ -24,7 +24,7 @@ import {
 import { ButtonListener } from 'types/props';
 import {
 	getAddressWithPath,
-	getNetworkKeyByPath,
+	getServiceKeyByPath,
 	getPathName
 } from 'utils/identitiesUtils';
 import { useSeedRef } from 'utils/seedRefHooks';
@@ -54,8 +54,7 @@ export default function PathCard({
 		identity.encryptedSeed
 	);
 	const [address, setAddress] = useState('');
-	const computedNetworkKey =
-		networkKey || getNetworkKeyByPath(path, identity.meta.get(path)!);
+	const computedNetworkKey = networkKey || getServiceKeyByPath(path);
 	useEffect(() => {
 		const getAddress = async (): Promise<void> => {
 			const existedAddress = getAddressWithPath(path, identity);

@@ -3,25 +3,21 @@ import { BackHandler, FlatList, FlatListProps } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import {
-	SUBSTRATE_NETWORK_LIST,
-	SubstrateNetworkKeys,
-	UnknownNetworkKeys
-} from 'constants/networkSpecs';
+	SERVICES_LIST,
+	ServicesSpecs,
+	UNKNOWN_SERVICE_KEY
+} from 'constants/servicesSpecs';
+import { SubstrateNetworkKeys } from 'constants/networkSpecs';
 import { NetworkCard } from 'components/AccountCard';
 import { SafeAreaViewContainer } from 'components/SafeAreaContainer';
 import ScreenHeading, { IdentityHeading } from 'components/ScreenHeading';
 import testIDs from 'e2e/testIDs';
 import { AlertStateContext } from 'stores/alertContext';
 import colors from 'styles/colors';
-import {
-	isEthereumNetworkParams,
-	NetworkParams,
-	SubstrateNetworkParams
-} from 'types/networkSpecsTypes';
 import { NavigationAccountIdentityProps } from 'types/props';
 import { alertPathDerivationError } from 'utils/alertUtils';
 import { withCurrentIdentity } from 'utils/HOC';
-import { getExistedNetworkKeys, getIdentityName } from 'utils/identitiesUtils';
+import { getExistedServicesKeys, getIdentityName } from 'utils/identitiesUtils';
 import {
 	navigateToPathDetails,
 	unlockSeedPhrase,
@@ -30,10 +26,7 @@ import {
 import { useSeedRef } from 'utils/seedRefHooks';
 import QrScannerTab from 'components/QrScannerTab';
 
-const excludedNetworks = [
-	UnknownNetworkKeys.UNKNOWN,
-	SubstrateNetworkKeys.KUSAMA_CC2
-];
+const excludedNetworks = [UNKNOWN_SERVICE_KEY, SubstrateNetworkKeys.KUSAMA_CC2];
 if (!__DEV__) {
 	excludedNetworks.push(SubstrateNetworkKeys.SUBSTRATE_DEV);
 	excludedNetworks.push(SubstrateNetworkKeys.KUSAMA_DEV);
@@ -76,46 +69,22 @@ function NetworkSelector({
 			params: { parentPath: '' }
 		});
 
-	const sortNetworkKeys = (
-		[, params1]: [any, NetworkParams],
-		[, params2]: [any, NetworkParams]
-	): number => {
-		if (params1.order > params2.order) {
-			return 1;
-		} else if (params1.order < params2.order) {
-			return -1;
-		} else {
-			return 0;
-		}
-	};
-
-	const filterNetworkKeys = ([networkKey]: [string, any]): boolean => {
-		const shouldExclude = excludedNetworks.includes(networkKey);
-		if (isNew && !shouldExclude) return true;
-
-		if (shouldShowMoreNetworks) {
-			if (shouldExclude) return false;
-			return !availableNetworks.includes(networkKey);
-		}
-		return availableNetworks.includes(networkKey);
-	};
-
 	const deriveSubstrateNetworkRootPath = async (
-		networkKey: string,
-		networkParams: SubstrateNetworkParams
+		serviceKey: string,
+		serviceSpecs: ServicesSpecs
 	): Promise<void> => {
-		const { pathId } = networkParams;
+		const { pathId } = serviceSpecs;
 		await unlockSeedPhrase(navigation, seedRefHooks.isSeedRefValid);
 		const fullPath = `//${pathId}`;
 		try {
 			await accountsStore.deriveNewPath(
 				fullPath,
 				seedRefHooks.substrateAddress,
-				networkKey,
-				`${networkParams.title} root`,
+				serviceKey,
+				`${serviceSpecs.title} root`,
 				''
 			);
-			navigateToPathDetails(navigation, networkKey, fullPath);
+			navigateToPathDetails(navigation, serviceKey, fullPath);
 		} catch (error) {
 			alertPathDerivationError(setAlert, error.message);
 		}
@@ -166,44 +135,55 @@ function NetworkSelector({
 		}
 	};
 
-	const onNetworkChosen = async (
-		networkKey: string,
-		networkParams: SubstrateNetworkParams
+	const onServiceChosen = async (
+		serviceKey: string,
+		serviceSpecs: ServicesSpecs
 	): Promise<void> => {
 		if (isNew || shouldShowMoreNetworks) {
-			await deriveSubstrateNetworkRootPath(networkKey, networkParams);
+			await deriveSubstrateNetworkRootPath(serviceKey, serviceSpecs);
 		} else {
-			navigation.navigate('PathsList', { networkKey });
+			navigation.navigate('PathsList', { networkKey: serviceKey });
 		}
 	};
 
 	const availableNetworks = useMemo(
-		() => getExistedNetworkKeys(currentIdentity),
+		() => getExistedServicesKeys(currentIdentity),
 		[currentIdentity]
 	);
-	const networkList = Object.entries(SUBSTRATE_NETWORK_LIST).filter(
-		filterNetworkKeys
-	);
-	networkList.sort(sortNetworkKeys);
 
-	const renderNetwork = ({
+	const sortNetworkKeys = (
+		[, params1]: [any, ServicesSpecs],
+		[, params2]: [any, ServicesSpecs]
+	): number => params1.order - params2.order;
+
+	const filterNetworkKeys = ([networkKey]: [string, any]): boolean => {
+		const shouldExclude = excludedNetworks.includes(networkKey);
+		if (isNew && !shouldExclude) return true;
+
+		if (shouldShowMoreNetworks) {
+			if (shouldExclude) return false;
+			return !availableNetworks.includes(networkKey);
+		}
+		return availableNetworks.includes(networkKey);
+	};
+
+	const servicesList = Object.entries(SERVICES_LIST)
+		.sort(sortNetworkKeys)
+		.filter(filterNetworkKeys);
+
+	const renderServices = ({
 		item
 	}: {
-		item: [string, SubstrateNetworkParams];
+		item: [string, ServicesSpecs];
 	}): ReactElement => {
-		const [networkKey, networkParams] = item;
-		const networkIndexSuffix = isEthereumNetworkParams(networkParams)
-			? networkParams.ethereumChainId
-			: networkParams.pathId;
+		const [serviceKey, serviceSpecs] = item;
 		return (
 			<NetworkCard
-				key={networkKey}
-				testID={testIDs.Main.networkButton + networkIndexSuffix}
-				networkKey={networkKey}
-				onPress={(): Promise<void> =>
-					onNetworkChosen(networkKey, networkParams)
-				}
-				title={networkParams.title}
+				key={serviceKey}
+				testID={testIDs.Main.networkButton}
+				networkKey={serviceKey}
+				onPress={(): Promise<void> => onServiceChosen(serviceKey, serviceSpecs)}
+				title={serviceSpecs.title}
 			/>
 		);
 	};
@@ -213,9 +193,9 @@ function NetworkSelector({
 			{renderScreenHeading()}
 			<FlatList
 				bounces={false}
-				data={networkList}
-				keyExtractor={(item: [string, NetworkParams]): string => item[0]}
-				renderItem={renderNetwork}
+				data={servicesList}
+				keyExtractor={(item: [string, ServicesSpecs]): string => item[0]}
+				renderItem={renderServices}
 				testID={testIDs.Main.chooserScreen}
 				{...getListOptions()}
 			/>

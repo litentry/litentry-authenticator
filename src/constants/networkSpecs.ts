@@ -25,7 +25,6 @@ export const UnknownNetworkKeys: {
 });
 
 // ethereumChainId is used as Network key for Ethereum networks
-/* eslint-disable sort-keys */
 export const EthereumNetworkKeys: {
 	[key: string]: string;
 } = Object.freeze({
@@ -36,8 +35,6 @@ export const EthereumNetworkKeys: {
 	KOVAN: '42',
 	CLASSIC: '61'
 });
-
-/* eslint-enable sort-keys */
 
 // genesisHash is used as Network key for Substrate networks
 export const SubstrateNetworkKeys: {

@@ -3,10 +3,9 @@ import { decryptData, substrateAddress } from './native';
 import { constructSURI, parseSURI } from './suri';
 import { generateAccountId } from './account';
 
+import { SERVICES_KEYS } from 'constants/servicesSpecs';
 import { TryCreateFunc } from 'utils/seedRefHooks';
 import {
-	NETWORK_LIST,
-	PATH_IDS_LIST,
 	SUBSTRATE_NETWORK_LIST,
 	SubstrateNetworkKeys,
 	UnknownNetworkKeys,
@@ -47,7 +46,7 @@ export const extractPathId = (path: string): string => {
 	const matchNetworkPath = path.match(pathsRegex.networkPath);
 	if (matchNetworkPath && matchNetworkPath[0]) {
 		const targetPathId = removeSlash(matchNetworkPath[0]);
-		if (PATH_IDS_LIST.includes(targetPathId)) {
+		if (Object.keys(SERVICES_KEYS).includes(targetPathId)) {
 			return targetPathId;
 		}
 	}
@@ -94,7 +93,7 @@ export const getAddressKeyByPath = (
 		? address
 		: generateAccountId({
 				address,
-				networkKey: getNetworkKeyByPath(path, pathMeta)
+				networkKey: getServiceKeyByPath(path)
 		  });
 };
 
@@ -190,21 +189,13 @@ export const getNetworkKeyByPathId = (pathId: string): string => {
 
 export const getNetworkKey = (path: string, identity: Identity): string => {
 	if (identity.meta.has(path)) {
-		return getNetworkKeyByPath(path, identity.meta.get(path)!);
+		return getServiceKeyByPath(path);
 	}
 	return UnknownNetworkKeys.UNKNOWN;
 };
 
-export const getNetworkKeyByPath = (
-	path: string,
-	pathMeta: AccountMeta
-): string => {
-	if (!isSubstratePath(path) && NETWORK_LIST.hasOwnProperty(path)) {
-		//It is a ethereum path
-		return path;
-	}
-	const pathId = pathMeta.networkPathId || extractPathId(path);
-
+export const getServiceKeyByPath = (path: string): string => {
+	const pathId = extractPathId(path);
 	return getNetworkKeyByPathId(pathId);
 };
 
@@ -278,13 +269,13 @@ export const verifyPassword = async (
 	return address === accountMeta?.address;
 };
 
-export const getExistedNetworkKeys = (identity: Identity): string[] => {
+export const getExistedServicesKeys = (identity: Identity): string[] => {
 	const pathEntries = Array.from(identity.meta.entries());
 	const networkKeysSet = pathEntries.reduce(
-		(networksSet, [path, pathMeta]: [string, AccountMeta]) => {
+		(networksSet, [path]: [string, AccountMeta]) => {
 			let networkKey;
 			if (isSubstratePath(path)) {
-				networkKey = getNetworkKeyByPath(path, pathMeta);
+				networkKey = getServiceKeyByPath(path);
 			} else {
 				networkKey = path;
 			}
