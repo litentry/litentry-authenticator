@@ -1,6 +1,8 @@
 import { default as React, useEffect, useReducer } from 'react';
 
+import { defaultNetworkPrefix, KNOWN_SERVICES_LIST } from 'constants/servicesSpecs';
 import {
+
 	ETHEREUM_NETWORK_LIST,
 	NetworkProtocols,
 	SUBSTRATE_NETWORK_LIST,
@@ -29,7 +31,7 @@ import {
 	emptyIdentity,
 	extractAddressFromAccountId,
 	getAddressKeyByPath,
-	getNetworkKey,
+	getServiceKey,
 	isEthereumAccountId,
 	parseFoundLegacyAccount
 } from 'utils/identitiesUtils';
@@ -71,7 +73,7 @@ export type AccountsContextState = {
 	deriveNewPath: (
 		newPath: string,
 		createSubstrateAddress: TrySubstrateAddress,
-		networkKey: string,
+		serviceKey: string,
 		name: string,
 		password: string
 	) => Promise<void>;
@@ -224,7 +226,7 @@ export function useAccountContext(): AccountsContextState {
 		for (const identity of state.identities) {
 			const searchList = Array.from(identity.addresses.entries());
 			for (const [addressKey, path] of searchList) {
-				const networkKey = getNetworkKey(path, identity);
+				const networkKey = getServiceKey(path, identity);
 				let accountId, address;
 				if (isEthereumAccountId(addressKey)) {
 					accountId = addressKey;
@@ -326,10 +328,10 @@ export function useAccountContext(): AccountsContextState {
 		createSubstrateAddress: TrySubstrateAddress,
 		updatedIdentity: Identity,
 		name: string,
-		networkKey: string,
+		serviceKey: string,
 		password: string
 	): Promise<Identity> {
-		const { prefix, pathId } = SUBSTRATE_NETWORK_LIST[networkKey];
+		const { pathId } = KNOWN_SERVICES_LIST[serviceKey];
 		const suriSuffix = constructSuriSuffix({
 			derivePath: newPath,
 			password
@@ -337,7 +339,7 @@ export function useAccountContext(): AccountsContextState {
 		if (updatedIdentity.meta.has(newPath)) throw new Error(accountExistedError);
 		let address = '';
 		try {
-			address = await createSubstrateAddress(suriSuffix, prefix);
+			address = await createSubstrateAddress(suriSuffix, defaultNetworkPrefix);
 		} catch (e) {
 			throw new Error(addressGenerateError);
 		}
@@ -409,7 +411,7 @@ export function useAccountContext(): AccountsContextState {
 	async function deriveNewPath(
 		newPath: string,
 		createSubstrateAddress: TrySubstrateAddress,
-		networkKey: string,
+		serviceKey: string,
 		name: string,
 		password: string
 	): Promise<void> {
@@ -419,7 +421,7 @@ export function useAccountContext(): AccountsContextState {
 			createSubstrateAddress,
 			updatedCurrentIdentity,
 			name,
-			networkKey,
+			serviceKey,
 			password
 		);
 		_updateCurrentIdentity(updatedCurrentIdentity);

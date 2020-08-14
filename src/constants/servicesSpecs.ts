@@ -1,3 +1,8 @@
+import {
+	SUBSTRATE_NETWORK_LIST,
+	SubstrateNetworkKeys
+} from 'constants/networkSpecs';
+
 export type ServicesSpecs = {
 	order: number;
 	color: string;
@@ -64,3 +69,6 @@ export const SERVICES_LIST: Record<string, ServicesSpecs> = {
 	...KNOWN_SERVICES_LIST,
 	[UNKNOWN_SERVICE_KEY]: UNKNOWN_SERVICE_SPECS
 };
+
+export const defaultServiceKey = SERVICES_KEYS.LITENTRY_PLAYGROUND;
+export const defaultNetworkPrefix = SUBSTRATE_NETWORK_LIST[SubstrateNetworkKeys.SUBSTRATE_DEV].prefix;

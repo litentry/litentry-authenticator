@@ -11,6 +11,8 @@ import {
 import * as React from 'react';
 import { View } from 'react-native';
 
+import PathDerivation from 'modules/path/PathDerivation';
+import PathsList from 'modules/path/PathsList';
 import PinNew from 'modules/unlock/screens/PinNew';
 import PinUnlock from 'modules/unlock/screens/PinUnlock';
 import PinUnlockWithPassword from 'modules/unlock/screens/PinUnlockWithPassword';
@@ -96,5 +98,7 @@ export const AppNavigator = (): React.ReactElement => (
 			name="PinUnlockWithPassword"
 			component={PinUnlockWithPassword}
 		/>
+		<ScreenStack.Screen name="PathDerivation" component={PathDerivation} />
+		<ScreenStack.Screen name="PathsList" component={PathsList} />
 	</ScreenStack.Navigator>
 );

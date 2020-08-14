@@ -8,6 +8,7 @@ import testIDs from '../../test/e2e/testIDs';
 import PathCard from './PathCard';
 import Separator from './Separator';
 
+import { ServicesSpecs } from 'constants/servicesSpecs';
 import { AlertStateContext } from 'stores/alertContext';
 import colors from 'styles/colors';
 import TouchableItem from 'components/TouchableItem';
@@ -32,7 +33,7 @@ type Props = {
 	accountsStore: AccountsStoreStateWithIdentity;
 	currentIdentity: Identity;
 	pathGroup: PathGroup;
-	networkParams: SubstrateNetworkParams | UnknownNetworkParams;
+	networkParams: ServicesSpecs;
 };
 
 export default function PathGroupCard({
@@ -94,16 +95,14 @@ export default function PathGroupCard({
 						<Text style={fontStyles.t_codeS}>{headerCode}</Text>
 					</View>
 				</View>
-				{isSubstrateNetworkParams(networkParams) && (
-					<TouchableItem
-						onPress={(): any => addDerivationPath(true)}
-						style={styles.derivationButton}
-						testID={`${testIDs.PathsList.pathsGroup}${pathGroup.title}`}
-					>
-						<Text style={styles.derivationIcon}>+</Text>
-						<Text style={styles.derivationTextLabel}>{'new derivation'}</Text>
-					</TouchableItem>
-				)}
+				<TouchableItem
+					onPress={(): any => addDerivationPath(true)}
+					style={styles.derivationButton}
+					testID={`${testIDs.PathsList.pathsGroup}${pathGroup.title}`}
+				>
+					<Text style={styles.derivationIcon}>+</Text>
+					<Text style={styles.derivationTextLabel}>{'new derivation'}</Text>
+				</TouchableItem>
 			</View>
 			{paths.map(path => (
 				<PathCard
@@ -111,7 +110,7 @@ export default function PathGroupCard({
 					testID={testIDs.PathsList.pathCard + path}
 					identity={currentIdentity}
 					path={path}
-					onPress={(): void => navigation.navigate('PathDetails', { path })}
+					onPress={(): void => {}}
 				/>
 			))}
 		</View>

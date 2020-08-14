@@ -3,7 +3,12 @@ import { decryptData, substrateAddress } from './native';
 import { constructSURI, parseSURI } from './suri';
 import { generateAccountId } from './account';
 
-import { SERVICES_KEYS } from 'constants/servicesSpecs';
+import {
+	defaultNetworkPrefix,
+	SERVICES_KEYS,
+	SERVICES_LIST,
+	UNKNOWN_SERVICE_KEY
+} from 'constants/servicesSpecs';
 import { TryCreateFunc } from 'utils/seedRefHooks';
 import {
 	SUBSTRATE_NETWORK_LIST,
@@ -50,7 +55,7 @@ export const extractPathId = (path: string): string => {
 			return targetPathId;
 		}
 	}
-	return unknownNetworkPathId;
+	return UNKNOWN_SERVICE_KEY;
 };
 
 export const extractSubPathName = (path: string): string => {
@@ -93,7 +98,7 @@ export const getAddressKeyByPath = (
 		? address
 		: generateAccountId({
 				address,
-				networkKey: getServiceKeyByPath(path)
+				networkKey: getServiceKeyByPath(path, pathMeta)
 		  });
 };
 
@@ -150,21 +155,21 @@ export const deepCopyIdentities = (identities: Identity[]): Identity[] =>
 export const deepCopyIdentity = (identity: Identity): Identity =>
 	deserializeIdentity(serializeIdentity(identity));
 
-export const getPathsWithSubstrateNetworkKey = (
+export const getPathsWithServiceKey = (
 	identity: Identity,
 	networkKey: string
 ): string[] => {
 	const pathEntries = Array.from(identity.meta.entries());
-	const targetPathId =
-		SUBSTRATE_NETWORK_LIST[networkKey]?.pathId || unknownNetworkPathId;
+	const targetPathId = networkKey;
 	const pathReducer = (
 		groupedPaths: string[],
 		[path, pathMeta]: [string, AccountMeta]
 	): string[] => {
 		let pathId;
-		if (!isSubstratePath(path)) return groupedPaths;
 		if (pathMeta.networkPathId !== undefined) {
-			pathId = pathMeta.networkPathId;
+			pathId = SERVICES_LIST.hasOwnProperty(pathMeta.networkPathId)
+				? pathMeta.networkPathId
+				: UNKNOWN_SERVICE_KEY;
 		} else {
 			pathId = extractPathId(path);
 		}
@@ -179,23 +184,23 @@ export const getPathsWithSubstrateNetworkKey = (
 };
 
 export const getNetworkKeyByPathId = (pathId: string): string => {
-	const networkKeyIndex = Object.values(SUBSTRATE_NETWORK_LIST).findIndex(
-		networkParams => networkParams.pathId === pathId
-	);
-	if (networkKeyIndex !== -1)
-		return Object.keys(SUBSTRATE_NETWORK_LIST)[networkKeyIndex];
-	return UnknownNetworkKeys.UNKNOWN;
+	return SERVICES_LIST.hasOwnProperty(pathId)
+		? pathId
+		: UnknownNetworkKeys.UNKNOWN;
 };
 
-export const getNetworkKey = (path: string, identity: Identity): string => {
+export const getServiceKey = (path: string, identity: Identity): string => {
 	if (identity.meta.has(path)) {
-		return getServiceKeyByPath(path);
+		return getServiceKeyByPath(path, identity.meta.get(path)!);
 	}
 	return UnknownNetworkKeys.UNKNOWN;
 };
 
-export const getServiceKeyByPath = (path: string): string => {
-	const pathId = extractPathId(path);
+export const getServiceKeyByPath = (
+	path: string,
+	pathMeta: AccountMeta
+): string => {
+	const pathId = pathMeta.networkPathId || extractPathId(path);
 	return getNetworkKeyByPathId(pathId);
 };
 
@@ -262,9 +267,9 @@ export const verifyPassword = async (
 		password: password,
 		phrase: seedPhrase
 	});
-	const networkKey = getNetworkKey(path, identity);
+	const networkKey = getServiceKey(path, identity);
 	const networkParams = SUBSTRATE_NETWORK_LIST[networkKey];
-	const address = await substrateAddress(suri, networkParams.prefix);
+	const address = await substrateAddress(suri, defaultNetworkPrefix);
 	const accountMeta = identity.meta.get(path);
 	return address === accountMeta?.address;
 };
@@ -272,13 +277,8 @@ export const verifyPassword = async (
 export const getExistedServicesKeys = (identity: Identity): string[] => {
 	const pathEntries = Array.from(identity.meta.entries());
 	const networkKeysSet = pathEntries.reduce(
-		(networksSet, [path]: [string, AccountMeta]) => {
-			let networkKey;
-			if (isSubstratePath(path)) {
-				networkKey = getServiceKeyByPath(path);
-			} else {
-				networkKey = path;
-			}
+		(networksSet, [path, pathMeta]: [string, AccountMeta]) => {
+			const networkKey = getServiceKeyByPath(path, pathMeta);
 			return { ...networksSet, [networkKey]: true };
 		},
 		{}

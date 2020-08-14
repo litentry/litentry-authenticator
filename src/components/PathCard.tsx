@@ -54,7 +54,8 @@ export default function PathCard({
 		identity.encryptedSeed
 	);
 	const [address, setAddress] = useState('');
-	const computedNetworkKey = networkKey || getServiceKeyByPath(path);
+	const computedNetworkKey =
+		networkKey || getServiceKeyByPath(path, identity.meta.get(path)!);
 	useEffect(() => {
 		const getAddress = async (): Promise<void> => {
 			const existedAddress = getAddressWithPath(path, identity);
