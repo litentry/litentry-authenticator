@@ -42,7 +42,7 @@ export default function OnBoardingView({
 			testID={testIDs.Main.noAccountScreen}
 			contentContainerStyle={styles.scrollContent}
 		>
-			<View style={styles.onboardingWrapper}>
+			<View style={styles.onBoardingWrapper}>
 				<TextButton text="Create" isRecover={false} />
 				<Text style={fontStyles.quote}> or </Text>
 				<TextButton text="recover" isRecover={true} />

@@ -8,7 +8,7 @@ import fontStyles from 'styles/fontStyles';
 export default function NoCurrentIdentity(): React.ReactElement {
 	return (
 		<SafeAreaScrollViewContainer contentContainerStyle={styles.scrollContent}>
-			<View style={styles.onboardingWrapper}>
+			<View style={styles.onBoardingWrapper}>
 				<Text style={fontStyles.quote}>
 					Select one of your identity to get started.
 				</Text>

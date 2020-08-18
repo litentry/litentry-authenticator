@@ -11,6 +11,14 @@ export type ServicesSpecs = {
 	logo?: number;
 };
 
+export type KnownServicesSpecs = {
+	order: number;
+	color: string;
+	pathId: string;
+	title: string;
+	logo: number;
+};
+
 export const UNKNOWN_SERVICE_KEY = 'unknown';
 export const UNKNOWN_SERVICE_SPECS: ServicesSpecs = {
 	color: '#000000',
@@ -27,7 +35,7 @@ export const SERVICES_KEYS: Record<string, string> = {
 	AMAZON: 'amazon'
 };
 
-export const KNOWN_SERVICES_LIST: Record<string, ServicesSpecs> = {
+export const KNOWN_SERVICES_LIST: Record<string, KnownServicesSpecs> = {
 	[SERVICES_KEYS.GOOGLE]: {
 		color: '#FCC367',
 		logo: require('res/img/logos/Centrifuge.png'),
@@ -71,4 +79,5 @@ export const SERVICES_LIST: Record<string, ServicesSpecs> = {
 };
 
 export const defaultServiceKey = SERVICES_KEYS.LITENTRY_PLAYGROUND;
-export const defaultNetworkPrefix = SUBSTRATE_NETWORK_LIST[SubstrateNetworkKeys.SUBSTRATE_DEV].prefix;
+export const defaultNetworkPrefix =
+	SUBSTRATE_NETWORK_LIST[SubstrateNetworkKeys.POLKADOT].prefix;

@@ -19,7 +19,7 @@ import { alertPathDerivationError } from 'utils/alertUtils';
 import { withCurrentIdentity } from 'utils/HOC';
 import { getExistedServicesKeys, getIdentityName } from 'utils/identitiesUtils';
 import {
-	navigateToPathDetails,
+	navigateToIdentitiesList,
 	unlockSeedPhrase,
 	useUnlockSeed
 } from 'utils/navigationHelpers';
@@ -84,7 +84,7 @@ function NetworkSelector({
 				`${serviceSpecs.title} root`,
 				''
 			);
-			navigateToPathDetails(navigation, serviceKey, fullPath);
+			navigateToIdentitiesList(navigation, serviceKey, fullPath);
 		} catch (error) {
 			alertPathDerivationError(setAlert, error.message);
 		}

@@ -105,54 +105,6 @@ type AccountCardProps = {
 	titlePrefix?: string;
 };
 
-export default function AccountCard({
-	address,
-	networkKey,
-	onPress,
-	seedType,
-	style,
-	testID,
-	title,
-	titlePrefix
-}: AccountCardProps): ReactElement {
-	const defaultTitle = 'No name';
-	const displayTitle = title.length > 0 ? title : defaultTitle;
-	const seedTypeDisplay = seedType || '';
-	const network =
-		networkKey !== undefined
-			? NETWORK_LIST[networkKey]
-			: NETWORK_LIST[NetworkProtocols.UNKNOWN];
-
-	return (
-		<TouchableItem
-			accessibilityComponentType="button"
-			testID={testID}
-			disabled={false}
-			onPress={onPress}
-		>
-			<CardSeparator />
-			<View style={[styles.content, style]}>
-				<AccountIcon address={address} network={network} style={styles.icon} />
-				<View style={styles.desc}>
-					<View>
-						<Text style={[fontStyles.t_regular, { color: colors.text.faded }]}>
-							{`${network.title}${seedTypeDisplay} `}
-						</Text>
-					</View>
-					<AccountPrefixedTitle
-						title={displayTitle}
-						titlePrefix={titlePrefix}
-					/>
-					{address !== '' && (
-						<Address address={address} protocol={network.protocol} />
-					)}
-				</View>
-				<NetworkFooter network={network} networkColor={network.color} />
-			</View>
-		</TouchableItem>
-	);
-}
-
 const styles = StyleSheet.create({
 	content: {
 		alignItems: 'center',

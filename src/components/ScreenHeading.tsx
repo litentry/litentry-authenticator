@@ -6,8 +6,8 @@ import { Icon } from 'react-native-elements';
 import ButtonIcon from './ButtonIcon';
 import AccountIcon from './AccountIcon';
 
+import { SERVICES_LIST } from 'constants/servicesSpecs';
 import testIDs from 'e2e/testIDs';
-import { NETWORK_LIST } from 'constants/networkSpecs';
 import fontStyles from 'styles/fontStyles';
 import fonts from 'styles/fonts';
 import colors from 'styles/colors';
@@ -101,7 +101,7 @@ export function LeftScreenHeading({
 			<View style={{ alignItems: 'center', flexDirection: 'row' }}>
 				<AccountIcon
 					address={''}
-					network={NETWORK_LIST[networkKey]}
+					network={SERVICES_LIST[networkKey]}
 					style={baseStyles.networkIcon}
 				/>
 				<View>

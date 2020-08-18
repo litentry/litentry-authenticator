@@ -40,6 +40,8 @@ export const EthereumNetworkKeys: {
 export const SubstrateNetworkKeys: {
 	[key: string]: string;
 } = Object.freeze({
+	LITENTRY:
+		'0x004db9e47072af71639ed82c43fef1972d324178cb23330a04eac5c3a19b74f8',
 	CENTRIFUGE:
 		'0x67dddf2673b69e5f875f6f25277495834398eafd67f492e09f3f3345e003d1b5', // https://portal.chain.centrifuge.io/#/explorer/query/0
 	CENTRIFUGE_AMBER:
@@ -72,6 +74,17 @@ const unknownNetworkBase: { [key: string]: UnknownNetworkParams } = {
 const substrateNetworkBase: {
 	[key: string]: Partial<SubstrateNetworkParams>;
 } = {
+	[SubstrateNetworkKeys.LITENTRY]: {
+		color: '#18FFB2',
+		decimals: 18,
+		genesisHash: SubstrateNetworkKeys.LITENTRY,
+		logo: require('res/img/litentry.png'),
+		order: 1,
+		pathId: 'litentry',
+		prefix: 0,
+		title: 'Litentry',
+		unit: 'LIT'
+	},
 	[SubstrateNetworkKeys.CENTRIFUGE]: {
 		color: '#FCC367',
 		decimals: 18,

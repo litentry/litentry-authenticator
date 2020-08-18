@@ -1,8 +1,17 @@
 import { StyleSheet } from 'react-native';
 
+import colors from 'styles/colors';
+import fonts from 'styles/fonts';
+
 const styles = StyleSheet.create({
-	onboardingWrapper: {
+	onBoardingText: {
+		fontFamily: fonts.bold,
+		color: colors.text.faded,
+		fontSize: 34
+	},
+	onBoardingWrapper: {
 		alignItems: 'center',
+		justifyContent: 'center',
 		flexDirection: 'row',
 		flexWrap: 'wrap'
 	},

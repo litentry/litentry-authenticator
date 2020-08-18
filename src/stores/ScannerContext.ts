@@ -297,11 +297,9 @@ export function useScannerContext(): ScannerContextState {
 			networkKey
 		});
 
-		const networkTitle = NETWORK_LIST[networkKey].title;
-
 		if (!sender) {
 			throw new Error(
-				`No private key found for account ${txRequest.data.account} found in your signer key storage for the ${networkTitle} chain.`
+				`No private key found for account ${txRequest.data.account} found in your signer key storage for the specific chain.`
 			);
 		}
 

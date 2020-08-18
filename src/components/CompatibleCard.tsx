@@ -16,21 +16,14 @@ const CompatibleCard = ({
 	account: FoundAccount;
 	accountsStore: AccountsContextState;
 	titlePrefix?: string;
-}): React.ReactElement =>
-	isLegacyFoundAccount(account) || account.isLegacy === undefined ? (
-		<AccountCard
-			title={account.name}
-			address={account.address}
-			networkKey={account.networkKey || ''}
-		/>
-	) : (
-		//Substrate tx do not need to render recipient
-		<PathCard
-			identity={accountsStore.getIdentityByAccountId(account.accountId)!}
-			path={account.path}
-			titlePrefix={titlePrefix}
-		/>
-	);
+}): React.ReactElement => (
+	//Substrate tx do not need to render recipient
+	<PathCard
+		identity={accountsStore.getIdentityByAccountId(account.accountId)!}
+		path={account.path}
+		titlePrefix={titlePrefix}
+	/>
+);
 
 CompatibleCard.propTypes = {
 	account: PropTypes.object.isRequired,

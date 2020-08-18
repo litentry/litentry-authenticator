@@ -110,7 +110,9 @@ export default function PathGroupCard({
 					testID={testIDs.PathsList.pathCard + path}
 					identity={currentIdentity}
 					path={path}
-					onPress={(): void => {}}
+					onPress={(): void => {
+						navigation.navigate('IdentityList', { ownerPath: path });
+					}}
 				/>
 			))}
 		</View>

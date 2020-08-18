@@ -11,6 +11,10 @@ import {
 import * as React from 'react';
 import { View } from 'react-native';
 
+import IdentityList from 'modules/token/screens/IdentityList';
+import ReceivedTokenList from 'modules/token/screens/ReceivedTokenList';
+import TokenDetails from 'modules/token/screens/TokenDetails';
+import TokenList from 'modules/token/screens/TokenList';
 import PathDerivation from 'modules/path/PathDerivation';
 import PathsList from 'modules/path/PathsList';
 import PinNew from 'modules/unlock/screens/PinNew';
@@ -92,6 +96,13 @@ export const AppNavigator = (): React.ReactElement => (
 			component={IdentityManagement}
 		/>
 		<ScreenStack.Screen name="IdentityNew" component={IdentityNew} />
+		<ScreenStack.Screen name="IdentityList" component={IdentityList} />
+		<ScreenStack.Screen
+			name="ReceivedTokenList"
+			component={ReceivedTokenList}
+		/>
+		<ScreenStack.Screen name="TokenDetails" component={TokenDetails} />
+		<ScreenStack.Screen name="TokenList" component={TokenList} />
 		<ScreenStack.Screen name="PinNew" component={PinNew} />
 		<ScreenStack.Screen name="PinUnlock" component={PinUnlock} />
 		<ScreenStack.Screen

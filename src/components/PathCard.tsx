@@ -7,19 +7,19 @@ import AccountPrefixedTitle from './AccountPrefixedTitle';
 import Address from './Address';
 import TouchableItem from './TouchableItem';
 
-import Separator from 'components/Separator';
 import {
-	defaultNetworkKey,
-	NETWORK_LIST,
-	UnknownNetworkKeys
-} from 'constants/networkSpecs';
+	defaultNetworkPrefix,
+	defaultServiceKey,
+	SERVICES_LIST,
+	UNKNOWN_SERVICE_KEY
+} from 'constants/servicesSpecs';
+import Separator from 'components/Separator';
 import colors from 'styles/colors';
 import fontStyles from 'styles/fontStyles';
 import { Identity } from 'types/identityTypes';
 import {
 	isSubstrateNetworkParams,
-	isUnknownNetworkParams,
-	SubstrateNetworkParams
+	isUnknownNetworkParams
 } from 'types/networkSpecsTypes';
 import { ButtonListener } from 'types/props';
 import {
@@ -61,9 +61,7 @@ export default function PathCard({
 			const existedAddress = getAddressWithPath(path, identity);
 			if (existedAddress !== '') return setAddress(existedAddress);
 			if (isSeedRefValid && isPathValid) {
-				const prefix = (NETWORK_LIST[
-					computedNetworkKey
-				] as SubstrateNetworkParams).prefix;
+				const prefix = defaultNetworkPrefix;
 				const generatedAddress = await substrateAddress(path, prefix);
 				return setAddress(generatedAddress);
 			}
@@ -83,50 +81,9 @@ export default function PathCard({
 	const isUnknownAddress = address === '';
 	const hasPassword = identity.meta.get(path)?.hasPassword ?? false;
 	const networkParams =
-		computedNetworkKey === UnknownNetworkKeys.UNKNOWN && !isUnknownAddress
-			? NETWORK_LIST[defaultNetworkKey]
-			: NETWORK_LIST[computedNetworkKey];
-
-	const nonSubstrateCard = (
-		<>
-			<Separator
-				shadow={true}
-				style={{
-					backgroundColor: 'transparent',
-					height: 0,
-					marginVertical: 0
-				}}
-			/>
-			<View
-				testID={testID}
-				style={[
-					styles.content,
-					{ backgroundColor: 'transparent', paddingVertical: 0 }
-				]}
-			>
-				<AccountIcon
-					address={address}
-					network={networkParams}
-					style={styles.identicon}
-				/>
-				<View style={styles.desc}>
-					<Text style={[fontStyles.t_regular, { color: colors.text.faded }]}>
-						{networkParams.title}
-					</Text>
-					<AccountPrefixedTitle title={pathName!} titlePrefix={titlePrefix} />
-					<Address address={address} protocol={networkParams.protocol} />
-				</View>
-				<View
-					style={[
-						styles.footer,
-						{
-							backgroundColor: networkParams.color
-						}
-					]}
-				/>
-			</View>
-		</>
-	);
+		computedNetworkKey === UNKNOWN_SERVICE_KEY && !isUnknownAddress
+			? SERVICES_LIST[defaultServiceKey]
+			: SERVICES_LIST[computedNetworkKey];
 
 	const substrateDerivationCard = (
 		<TouchableItem
@@ -193,10 +150,7 @@ export default function PathCard({
 		</TouchableItem>
 	);
 
-	return isSubstrateNetworkParams(networkParams) ||
-		isUnknownNetworkParams(networkParams)
-		? substrateDerivationCard
-		: nonSubstrateCard;
+	return substrateDerivationCard;
 }
 
 const styles = StyleSheet.create({

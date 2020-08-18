@@ -12,6 +12,11 @@ export type RootStackParamList = {
 	IdentityBackup: { isNew: true } | { isNew: false; seedPhrase: string };
 	IdentityManagement: undefined;
 	IdentityNew: { isRecover: boolean } | undefined;
+	IdentityList: { ownerPath: string };
+	ReceivedTokenList: undefined;
+	SignedTokenDetails: undefined;
+	TokenDetails: { token: string };
+	TokenList: { identity: string };
 	MessageDetails: undefined;
 	Empty: undefined;
 	LegacyAccountBackup:

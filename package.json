@@ -28,7 +28,7 @@
     "e2e": "yarn e2e:ios && yarn e2e:android"
   },
   "dependencies": {
-    "@polkadot/api": "1.26.1",
+    "@polkadot/api": "1.28.1",
     "@polkadot/reactnative-identicon": "0.53.1",
     "@polkadot/types": "1.26.1",
     "@polkadot/types-known": "1.26.1",
@@ -47,7 +47,7 @@
     "react-native-camera": "^3.21.0",
     "react-native-elements": "^1.2.6",
     "react-native-gesture-handler": "^1.6.0",
-    "react-native-keyboard-aware-scroll-view": "^0.9.1",
+    "react-native-keyboard-aware-scroll-view": "^0.9.2",
     "react-native-markdown-renderer": "^3.2.8",
     "react-native-navbar-color": "^1.0.3",
     "react-native-popup-menu": "^0.15.6",

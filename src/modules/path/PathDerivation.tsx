@@ -17,6 +17,10 @@
 import React, { useRef, useState, useMemo, useContext } from 'react';
 
 import {
+	DerivationServiceSelector,
+	ServiceOptions
+} from 'components/DerivationServiceSelector';
+import {
 	defaultServiceKey,
 	UNKNOWN_SERVICE_KEY
 } from 'constants/servicesSpecs';
@@ -141,8 +145,8 @@ function PathDerivation({
 				value={keyPairsName}
 			/>
 			{enableCustomNetwork && (
-				<DerivationNetworkSelector
-					networkKey={customServiceKey}
+				<DerivationServiceSelector
+					serviceKey={customServiceKey}
 					setVisible={setModalVisible}
 				/>
 			)}
@@ -166,8 +170,8 @@ function PathDerivation({
 				onPress={onPathDerivation}
 			/>
 			{enableCustomNetwork && (
-				<NetworkOptions
-					setNetworkKey={setCustomServiceKey}
+				<ServiceOptions
+					setServiceKey={setCustomServiceKey}
 					visible={modalVisible}
 					setVisible={setModalVisible}
 				/>

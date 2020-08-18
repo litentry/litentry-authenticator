@@ -120,7 +120,7 @@ export const unlockSeedPhraseWithPassword = async <
 		});
 	});
 
-export const navigateToPathDetails = <
+export const navigateToIdentitiesList = <
 	RouteName extends keyof RootStackParamList
 >(
 	navigation: GenericNavigationProps<RouteName>,
@@ -139,8 +139,8 @@ export const navigateToPathDetails = <
 				params: { networkKey }
 			},
 			{
-				name: 'PathDetails',
-				params: { path }
+				name: 'IdentityList',
+				params: { ownerPath: path }
 			}
 		]
 	});

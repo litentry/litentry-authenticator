@@ -1,8 +1,10 @@
 import { default as React, useEffect, useReducer } from 'react';
 
-import { defaultNetworkPrefix, KNOWN_SERVICES_LIST } from 'constants/servicesSpecs';
 import {
-
+	defaultNetworkPrefix,
+	KNOWN_SERVICES_LIST
+} from 'constants/servicesSpecs';
+import {
 	ETHEREUM_NETWORK_LIST,
 	NetworkProtocols,
 	SUBSTRATE_NETWORK_LIST,

@@ -20,7 +20,7 @@ import { ScrollView } from 'react-native';
 import { SERVICES_LIST } from 'constants/servicesSpecs';
 import { PathGroup } from 'types/identityTypes';
 import PathGroupCard from 'components/PathGroupCard';
-import { useUnlockSeed } from 'utils/navigationHelpers';
+import { navigateToPathsList, useUnlockSeed } from 'utils/navigationHelpers';
 import { useSeedRef } from 'utils/seedRefHooks';
 import { SafeAreaViewContainer } from 'components/SafeAreaContainer';
 import { NETWORK_LIST, UnknownNetworkKeys } from 'constants/networkSpecs';
@@ -63,6 +63,10 @@ function PathsList({
 			params: { parentPath: isUnknownNetworkPath ? '' : rootPath }
 		});
 
+	const navigateToIdentityList = (path: string): void => {
+		navigation.navigate('IdentityList', { ownerPath: path });
+	};
+
 	const renderSinglePath = (pathsGroup: PathGroup): React.ReactElement => {
 		const path = pathsGroup.paths[0];
 		return (
@@ -71,7 +75,7 @@ function PathsList({
 				testID={testIDs.PathsList.pathCard + path}
 				identity={currentIdentity}
 				path={path}
-				onPress={(): void => {}}
+				onPress={(): void => navigateToIdentityList(path)}
 			/>
 		);
 	};
