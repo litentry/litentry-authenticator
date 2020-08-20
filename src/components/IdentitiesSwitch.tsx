@@ -34,12 +34,6 @@ function IdentitiesSwitch({}: {}): React.ReactElement {
 	const navigation: StackNavigationProp<RootStackParamList> = useNavigation();
 	const [visible, setVisible] = useState(false);
 	const { currentIdentity, identities, accounts } = accountsStore.state;
-	// useEffect(() => {
-	// 	const firstLogin: boolean = identities.length === 0;
-	// 	if (currentIdentity === null && !firstLogin) {
-	// 		setVisible(true);
-	// 	}
-	// }, [currentIdentity, identities]);
 
 	const closeModalAndNavigate = <RouteName extends keyof RootStackParamList>(
 		screenName: RouteName,

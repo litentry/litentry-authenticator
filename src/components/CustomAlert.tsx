@@ -18,7 +18,7 @@ export default function CustomAlert(): React.ReactElement {
 		setAlertDisplay(true);
 		if (actions.length === 0) {
 			Animated.timing(animatedValue, {
-				duration: 1000,
+				duration: 2000,
 				easing: Easing.poly(8),
 				toValue: 0,
 				useNativeDriver: false

@@ -1,6 +1,9 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
+import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import U64 from '@polkadot/types/primitive/U64';
 import { useEffect, useState } from 'react';
-
+import { u64 } from '@polkadot/types';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 // Construct
 const wsProvider = new WsProvider('wss://ws.litentry.com/');
 const alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
@@ -43,6 +46,7 @@ export function useApi(): boolean {
 						}
 					}
 				});
+				await cryptoWaitReady();
 				setApiReady(true);
 				console.log('rpc endpoints are', api.tx.litentry);
 				console.log('api genesisHash', api.genesisHash.toHex());
@@ -60,29 +64,26 @@ export function useIdentities(account: string): string[] {
 	useEffect(() => {
 		async function queryTokenIdentity() {
 			if (account === null || account === '') return;
-			debugger;
-			const totalNumbers = await api.query.litentry.ownedIdentitiesCount(
-				account
+			const totalNumbersRaw: u64 = await api.query.litentry.ownedIdentitiesCount<
+				u64
+			>(account);
+			const totalNumbers = totalNumbersRaw.toNumber();
+			const a = new Array(totalNumbers).fill(null);
+			const promises = a.map((_, i) => {
+				return api.query.litentry.ownedIdentitiesArray([account, i]);
+			});
+			console.log('promises are', promises);
+			const results = await Promise.all(promises);
+			const unwrappedResult: string[] = results.map(wrappedItem =>
+				wrappedItem.toString()
 			);
-			console.log('totalNumbers are ', totalNumbers);
-			if (totalNumbers.words) {
-				const a = new Array(totalNumbers.words[0]).fill(null);
-				const promises = a.map((_, i) => {
-					return api.query.litentry.ownedIdentitiesArray([account, i]);
-				});
-				console.log('promises are', promises);
-				const results = await Promise.all(promises);
-				const unwrappedResult: string[] = results.map(wrappedItem =>
-					wrappedItem.toString()
-				);
-				console.log(
-					'result Array is',
-					results,
-					'call result is',
-					unwrappedResult
-				);
-				setIdentities(unwrappedResult);
-			}
+			console.log(
+				'result Array is',
+				results,
+				'call result is',
+				unwrappedResult
+			);
+			setIdentities(unwrappedResult);
 		}
 		queryTokenIdentity();
 	}, [account]);
@@ -94,27 +95,26 @@ export function useReceivedTokens(account: string): string[] {
 	useEffect(() => {
 		async function fetchTokens() {
 			if (account === null || account === '') return;
-			const totalNumbers = await api.query.litentry.ownedAuthorizedTokensCount(
-				account
+			const totalNumbersRaw = await api.query.litentry.ownedAuthorizedTokensCount<
+				u64
+			>(account);
+			const totalNumbers = totalNumbersRaw.toNumber();
+			const a = new Array(totalNumbers).fill(null);
+			const promises = a.map((_, i) => {
+				return api.query.litentry.ownedAuthorizedTokensArray([account, i]);
+			});
+			console.log('promises are', promises);
+			const results = await Promise.all(promises);
+			const unwrappedResult = results.map(wrappedItem =>
+				wrappedItem.toString()
 			);
-			if (totalNumbers.words) {
-				const a = new Array(totalNumbers.words[0]).fill(null);
-				const promises = a.map((_, i) => {
-					return api.query.litentry.ownedAuthorizedTokensArray([account, i]);
-				});
-				console.log('promises are', promises);
-				const results = await Promise.all(promises);
-				const unwrappedResult = results.map(wrappedItem =>
-					wrappedItem.toString()
-				);
-				console.log(
-					'result Array is',
-					results,
-					'call result is',
-					unwrappedResult
-				);
-				setTokens(unwrappedResult);
-			}
+			console.log(
+				'result Array is',
+				results,
+				'call result is',
+				unwrappedResult
+			);
+			setTokens(unwrappedResult);
 		}
 		fetchTokens();
 	}, [account]);
@@ -126,30 +126,29 @@ export function useTokens(identityId: string): string[] {
 	useEffect(() => {
 		async function fetchTokens() {
 			if (identityId === null || identityId === '') return;
-			const totalNumbers = await api.query.litentry.identityAuthorizedTokensCount(
-				identityId
+			const totalNumbersRaw = await api.query.litentry.identityAuthorizedTokensCount<
+				u64
+			>(identityId);
+			const totalNumbers = totalNumbersRaw.toNumber();
+			const a = new Array(totalNumbers).fill(null);
+			const promises = a.map((_, i) => {
+				return api.query.litentry.identityAuthorizedTokensArray([
+					identityId,
+					i
+				]);
+			});
+			console.log('promises are', promises);
+			const results = await Promise.all(promises);
+			const unwrappedResult = results.map(wrappedItem =>
+				wrappedItem.toString()
 			);
-			if (totalNumbers.words) {
-				const a = new Array(totalNumbers.words[0]).fill(null);
-				const promises = a.map((_, i) => {
-					return api.query.litentry.identityAuthorizedTokensArray([
-						identityId,
-						i
-					]);
-				});
-				console.log('promises are', promises);
-				const results = await Promise.all(promises);
-				const unwrappedResult = results.map(wrappedItem =>
-					wrappedItem.toString()
-				);
-				console.log(
-					'result Array is',
-					results,
-					'call result is',
-					unwrappedResult
-				);
-				setTokens(unwrappedResult);
-			}
+			console.log(
+				'result Array is',
+				results,
+				'call result is',
+				unwrappedResult
+			);
+			setTokens(unwrappedResult);
 		}
 		fetchTokens();
 	}, [identityId]);
@@ -173,4 +172,15 @@ export function useTokenOwner(tokenId: string): string {
 
 export async function getTokenIdentity(token) {
 	return await api.query.litentry.authorizedTokenIdentity(token);
+}
+
+type LitentryExtrinsics = {
+	registerIdentity: SubmittableExtrinsicFunction<'promise'>;
+};
+
+export function useExtrinsics(): LitentryExtrinsics {
+	console.log('tx is', api.tx.litentry);
+	return {
+		registerIdentity: api.tx.litentry.registerIdentity
+	};
 }
