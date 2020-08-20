@@ -1,15 +1,19 @@
-import ButtonIcon from 'components/ButtonIcon';
-import React, {useState, useEffect, useRef, useContext} from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { FlatList, Text, View, SafeAreaView } from 'react-native';
 import { Keyring } from '@polkadot/api';
-import {AlertStateContext} from 'stores/alertContext';
-import fontStyles from 'styles/fontStyles';
 
 import TokenCard from '../components/TokenCard';
 import { useApi, useExtrinsics, useIdentities } from '../hooks';
 import Button from '../../../components/Button';
 import Head from '../components/Head';
 
+import { generateAccountId } from 'utils/account';
+import PopupModal from 'modules/token/components/PopupModal';
+import { defaultNetworkKey } from 'constants/networkSpecs';
+import QrView from 'components/QrView';
+import fontStyles from 'styles/fontStyles';
+import { AlertStateContext } from 'stores/alertContext';
+import ButtonIcon from 'components/ButtonIcon';
 import { unlockAndReturnSeed } from 'utils/navigationHelpers';
 import QRScannerAndDerivationTab from 'components/QRScannerAndDerivationTab';
 import { withCurrentIdentity } from 'utils/HOC';
@@ -31,6 +35,11 @@ function IdentityList({
 	const ownerMeta = currentIdentity.meta.get(ownerPath)!;
 	const identities = useIdentities(ownerMeta.address);
 	const { registerIdentity } = useExtrinsics();
+	const [modalVisible, setModalVisible] = useState<boolean>(false);
+	const accountId = generateAccountId({
+		address: ownerMeta.address,
+		networkKey: defaultNetworkKey
+	});
 
 	const registerNewIdentity = async () => {
 		const keyring = new Keyring({ type: 'sr25519' });
@@ -53,7 +62,7 @@ function IdentityList({
 					unsub();
 				}
 			});
-		} catch(e) {
+		} catch (e) {
 			console.log('e is', e);
 			setAlert(
 				'Transaction Failed',
@@ -64,12 +73,16 @@ function IdentityList({
 		}
 	};
 
+	function QrCode(): React.ReactElement {
+		return <QrView data={accountId} />;
+	}
+
 	return (
 		<SafeAreaViewContainer style={styles.container}>
 			<Head label="Owned Identities" />
 			<ButtonIcon
 				title="Show QR Code"
-				onPress={(): number => 1}
+				onPress={(): void => setModalVisible(true)}
 				{...i_arrowOptions}
 			/>
 			<FlatList
@@ -92,6 +105,12 @@ function IdentityList({
 			<QRScannerAndDerivationTab
 				onPress={registerNewIdentity}
 				title="Register New"
+			/>
+			<PopupModal
+				title="QR Code"
+				visible={modalVisible}
+				setVisible={setModalVisible}
+				innerComponent={<QrCode />}
 			/>
 		</SafeAreaViewContainer>
 	);
