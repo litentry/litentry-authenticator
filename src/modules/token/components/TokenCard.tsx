@@ -22,6 +22,7 @@ import { StyleSheet, Text, View, ViewStyle } from 'react-native';
 import TouchableItem from 'components/TouchableItem';
 import colors from 'styles/colors';
 import fonts from 'styles/fonts';
+import fontStyles from 'styles/fontStyles';
 
 type Props = {
 	identity: string;
@@ -48,12 +49,12 @@ export default function TokenCard(props: Props): React.ReactElement {
 		>
 			<View style={[styles.body, style]}>
 				<View style={styles.desc}>
-					<Text numberOfLines={1} style={styles.titleText}>
+					<Text numberOfLines={1} style={fontStyles.t_big}>
 						{`${title} ${index}`}
 					</Text>
 					<Text
 						numberOfLines={1}
-						style={styles.titleText}
+						style={fontStyles.t_code}
 						ellipsizeMode="middle"
 					>
 						{`hash: ${identity}`}
