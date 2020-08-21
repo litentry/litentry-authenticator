@@ -16,7 +16,6 @@ import ReceivedTokenList from 'modules/token/screens/ReceivedTokenList';
 import TokenDetails from 'modules/token/screens/TokenDetails';
 import TokenList from 'modules/token/screens/TokenList';
 import PathDerivation from 'modules/path/PathDerivation';
-import PathsList from 'modules/path/PathsList';
 import PinNew from 'modules/unlock/screens/PinNew';
 import PinUnlock from 'modules/unlock/screens/PinUnlock';
 import PinUnlockWithPassword from 'modules/unlock/screens/PinUnlockWithPassword';
@@ -110,6 +109,5 @@ export const AppNavigator = (): React.ReactElement => (
 			component={PinUnlockWithPassword}
 		/>
 		<ScreenStack.Screen name="PathDerivation" component={PathDerivation} />
-		<ScreenStack.Screen name="PathsList" component={PathsList} />
 	</ScreenStack.Navigator>
 );

@@ -155,32 +155,8 @@ export const deepCopyIdentities = (identities: Identity[]): Identity[] =>
 export const deepCopyIdentity = (identity: Identity): Identity =>
 	deserializeIdentity(serializeIdentity(identity));
 
-export const getPathsWithServiceKey = (
-	identity: Identity,
-	networkKey: string
-): string[] => {
-	const pathEntries = Array.from(identity.meta.entries());
-	const targetPathId = networkKey;
-	const pathReducer = (
-		groupedPaths: string[],
-		[path, pathMeta]: [string, AccountMeta]
-	): string[] => {
-		let pathId;
-		if (pathMeta.networkPathId !== undefined) {
-			pathId = SERVICES_LIST.hasOwnProperty(pathMeta.networkPathId)
-				? pathMeta.networkPathId
-				: UNKNOWN_SERVICE_KEY;
-		} else {
-			pathId = extractPathId(path);
-		}
-
-		if (pathId === targetPathId) {
-			groupedPaths.push(path);
-			return groupedPaths;
-		}
-		return groupedPaths;
-	};
-	return pathEntries.reduce(pathReducer, []);
+export const getAllPaths = (identity: Identity): string[] => {
+	return Array.from(identity.meta.keys());
 };
 
 export const getNetworkKeyByPathId = (pathId: string): string => {

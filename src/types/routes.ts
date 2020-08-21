@@ -30,7 +30,6 @@ export type RootStackParamList = {
 	PathDetails: { path: string };
 	PathManagement: { path: string };
 	PathSecret: { path: string; password?: string };
-	PathsList: { networkKey: string };
 	PinNew: { resolve: (pin: string) => void };
 	PinUnlock:
 		| {

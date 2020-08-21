@@ -32,7 +32,8 @@ export const SERVICES_KEYS: Record<string, string> = {
 	APPLE: 'apple',
 	WECHAT: 'wechat',
 	LITENTRY_PLAYGROUND: 'litentry',
-	AMAZON: 'amazon'
+	AMAZON: 'amazon',
+	POLKADOT: 'polkadot',
 };
 
 export const KNOWN_SERVICES_LIST: Record<string, KnownServicesSpecs> = {
@@ -59,14 +60,14 @@ export const KNOWN_SERVICES_LIST: Record<string, KnownServicesSpecs> = {
 	},
 	[SERVICES_KEYS.LITENTRY_PLAYGROUND]: {
 		color: '#E6027A',
-		logo: require('res/img/logos/Kusama.png'),
+		logo: require('res/img/litentry.png'),
 		order: 5,
 		pathId: SERVICES_KEYS.LITENTRY_PLAYGROUND,
 		title: 'Litentry Playground'
 	},
-	[SERVICES_KEYS.AMAZON]: {
+	[SERVICES_KEYS.POLKADOT]: {
 		color: '#2602FA',
-		logo: require('res/img/logos/Kusama.png'),
+		logo: require('res/img/logos/Polkadot.png'),
 		order: 2,
 		pathId: SERVICES_KEYS.AMAZON,
 		title: 'Amazon'

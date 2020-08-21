@@ -33,7 +33,7 @@ type Props = {
 	accountsStore: AccountsStoreStateWithIdentity;
 	currentIdentity: Identity;
 	pathGroup: PathGroup;
-	networkParams: ServicesSpecs;
+	networkParams: SubstrateNetworkParams;
 };
 
 export default function PathGroupCard({

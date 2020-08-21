@@ -142,7 +142,6 @@ function NetworkSelector({
 		if (isNew || shouldShowMoreNetworks) {
 			await deriveSubstrateNetworkRootPath(serviceKey, serviceSpecs);
 		} else {
-			navigation.navigate('PathsList', { networkKey: serviceKey });
 		}
 	};
 

@@ -6,7 +6,7 @@ import { Icon } from 'react-native-elements';
 import ButtonIcon from './ButtonIcon';
 import AccountIcon from './AccountIcon';
 
-import { SERVICES_LIST } from 'constants/servicesSpecs';
+import {SERVICES_KEYS, SERVICES_LIST} from 'constants/servicesSpecs';
 import testIDs from 'e2e/testIDs';
 import fontStyles from 'styles/fontStyles';
 import fonts from 'styles/fonts';
@@ -74,18 +74,16 @@ const renderIcon = (iconName?: string, iconType?: string): ReactNode => {
 	);
 };
 
-export function LeftScreenHeading({
+export function MainScreenLeftHeading({
 	title,
 	subtitle,
 	hasSubtitleIcon,
-	headMenu,
-	networkKey
+	headMenu
 }: {
 	title: string;
 	subtitle?: string;
 	hasSubtitleIcon?: boolean;
 	headMenu?: React.ReactElement;
-	networkKey: string;
 }): ReactElement {
 	const titleStyle: TextStyle = {
 		...fontStyles.h2,
@@ -101,7 +99,7 @@ export function LeftScreenHeading({
 			<View style={{ alignItems: 'center', flexDirection: 'row' }}>
 				<AccountIcon
 					address={''}
-					network={SERVICES_LIST[networkKey]}
+					network={SERVICES_LIST[SERVICES_KEYS.POLKADOT]}
 					style={baseStyles.networkIcon}
 				/>
 				<View>

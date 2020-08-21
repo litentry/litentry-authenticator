@@ -135,10 +135,6 @@ export const navigateToIdentitiesList = <
 				params: { isNew: false }
 			},
 			{
-				name: 'PathsList',
-				params: { networkKey }
-			},
-			{
 				name: 'IdentityList',
 				params: { ownerPath: path }
 			}
@@ -235,12 +231,6 @@ export const resetNavigationWithScanner = <
 	});
 	navigation.dispatch(resetAction);
 };
-
-export const navigateToPathsList = <RouteName extends keyof RootStackParamList>(
-	navigation: GenericNavigationProps<RouteName>,
-	networkKey: string
-): void =>
-	resetNavigationWithNetworkChooser(navigation, 'PathsList', { networkKey });
 
 export const navigateToQrScanner = <RouteName extends keyof RootStackParamList>(
 	navigation: GenericNavigationProps<RouteName>
