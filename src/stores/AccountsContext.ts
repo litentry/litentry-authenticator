@@ -1,3 +1,5 @@
+import { default as React, useEffect, useReducer } from 'react';
+
 import {
 	defaultNetworkKey,
 	ETHEREUM_NETWORK_LIST,
@@ -5,12 +7,16 @@ import {
 	SUBSTRATE_NETWORK_LIST,
 	UnknownNetworkKeys
 } from 'constants/networkSpecs';
-
-import {defaultNetworkPrefix} from 'constants/servicesSpecs';
-import {default as React, useEffect, useReducer} from 'react';
-import {Account, AccountsStoreState, FoundIdentityAccount, Identity, LockedAccount} from 'types/identityTypes';
-import {emptyAccount, generateAccountId} from 'utils/account';
-import {loadIdentities, saveIdentities} from 'utils/db';
+import { defaultNetworkPrefix } from 'constants/servicesSpecs';
+import {
+	Account,
+	AccountsStoreState,
+	FoundIdentityAccount,
+	Identity,
+	LockedAccount
+} from 'types/identityTypes';
+import { emptyAccount, generateAccountId } from 'utils/account';
+import { loadIdentities, saveIdentities } from 'utils/db';
 import {
 	accountExistedError,
 	addressGenerateError,
@@ -27,9 +33,13 @@ import {
 	getNetworkKey,
 	isEthereumAccountId
 } from 'utils/identitiesUtils';
-import {brainWalletAddressWithRef, encryptData} from 'utils/native';
-import {CreateSeedRefWithNewSeed, TryBrainWalletAddress, TrySubstrateAddress} from 'utils/seedRefHooks';
-import {constructSuriSuffix} from 'utils/suri';
+import { brainWalletAddressWithRef, encryptData } from 'utils/native';
+import {
+	CreateSeedRefWithNewSeed,
+	TryBrainWalletAddress,
+	TrySubstrateAddress
+} from 'utils/seedRefHooks';
+import { constructSuriSuffix } from 'utils/suri';
 
 export type AccountsContextState = {
 	clearIdentity: () => void;
@@ -215,7 +225,10 @@ export function useAccountContext(): AccountsContextState {
 			const searchList = Array.from(identity.addresses.entries());
 			for (const [addressKey, path] of searchList) {
 				const networkKey = getNetworkKey(path, identity);
-				const accountId = generateAccountId({ address: addressKey, networkKey });
+				const accountId = generateAccountId({
+					address: addressKey,
+					networkKey
+				});
 				const searchAccountIdOrAddress = isAccountId ? accountId : addressKey;
 				const found = isEthereumAccountId(accountId)
 					? searchAccountIdOrAddress.toLowerCase() ===

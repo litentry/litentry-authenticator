@@ -7,7 +7,6 @@ import { Icon } from 'react-native-elements';
 import TouchableItem from './TouchableItem';
 
 import colors from 'styles/colors';
-import { navigateToQrScanner } from 'utils/navigationHelpers';
 import testIDs from 'e2e/testIDs';
 import fontStyles from 'styles/fontStyles';
 import { RootStackParamList } from 'types/routes';

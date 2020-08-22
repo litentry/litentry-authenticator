@@ -3,8 +3,6 @@ import React, { useMemo } from 'react';
 import { ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { SERVICES_LIST } from 'constants/servicesSpecs';
-import { AccountsContextState } from 'stores/AccountsContext';
 import {
 	AccountsStoreStateWithIdentity,
 	Identity,
@@ -17,9 +15,7 @@ import { useSeedRef } from 'utils/seedRefHooks';
 import { SafeAreaViewContainer } from 'components/SafeAreaContainer';
 import {
 	defaultNetworkKey,
-	NETWORK_LIST,
-	SUBSTRATE_NETWORK_LIST,
-	UnknownNetworkKeys
+	SUBSTRATE_NETWORK_LIST
 } from 'constants/networkSpecs';
 import testIDs from 'e2e/testIDs';
 import { getAllPaths, groupPaths } from 'utils/identitiesUtils';

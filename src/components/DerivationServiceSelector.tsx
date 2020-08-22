@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {
 	Image,
@@ -16,10 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import TransparentBackground from './TransparentBackground';
 
 import { KNOWN_SERVICES_LIST, SERVICES_LIST } from 'constants/servicesSpecs';
-import {
-	SUBSTRATE_NETWORK_LIST,
-	SubstrateNetworkKeys
-} from 'constants/networkSpecs';
+import { SubstrateNetworkKeys } from 'constants/networkSpecs';
 import fontStyles from 'styles/fontStyles';
 import colors from 'styles/colors';
 

@@ -14,13 +14,6 @@ export default function AccountIcon(props: {
 }): ReactElement {
 	const { address, style, network } = props;
 
-	useEffect((): (() => void) => {
-		let promiseDisabled = false;
-		return (): void => {
-			promiseDisabled = true;
-		};
-	}, [address]);
-
 	if (address === '') {
 		return (
 			<View style={style as ViewStyle}>

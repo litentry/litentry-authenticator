@@ -1,10 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { FlatList, Text, View, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, View } from 'react-native';
 
 import TokenCard from '../components/TokenCard';
 import { useTokens } from '../hooks';
 import QrView from '../../../components/QrView';
 
+import { i_arrowOptions } from 'modules/token/styles';
+import PopupModal from 'modules/token/components/PopupModal';
+import ScreenHeading from 'components/ScreenHeading';
+import ButtonIcon from 'components/ButtonIcon';
 import { NavigationAccountIdentityProps } from 'types/props';
 import { SafeAreaViewContainer } from 'components/SafeAreaContainer';
 import fonts from 'styles/fonts';
@@ -17,10 +21,22 @@ export default function TokenList({
 	// this is the actual default endpoint
 	const identityHash = route.params.identity;
 	const tokens = useTokens(identityHash);
+	const [modalVisible, setModalVisible] = useState<boolean>(false);
 	console.log('tokens are', tokens);
 	return (
 		<SafeAreaViewContainer style={styles.container}>
-			<QrView data={'address:' + identityHash.toString()} />
+			<ScreenHeading title="Identity Related Tokens" />
+			<ButtonIcon
+				title="Show Identity QR Code"
+				onPress={(): void => setModalVisible(true)}
+				{...i_arrowOptions}
+			/>
+			<PopupModal
+				title="QR Code"
+				visible={modalVisible}
+				setVisible={setModalVisible}
+				innerComponent={<QrView data={'address:' + identityHash.toString()} />}
+			/>
 			<FlatList
 				style={styles.content}
 				data={tokens}

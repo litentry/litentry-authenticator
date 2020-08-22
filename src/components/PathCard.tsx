@@ -4,7 +4,6 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 
 import AccountIcon from './AccountIcon';
 import AccountPrefixedTitle from './AccountPrefixedTitle';
-import Address from './Address';
 import TouchableItem from './TouchableItem';
 
 import {
@@ -13,14 +12,9 @@ import {
 	SERVICES_LIST,
 	UNKNOWN_SERVICE_KEY
 } from 'constants/servicesSpecs';
-import Separator from 'components/Separator';
 import colors from 'styles/colors';
 import fontStyles from 'styles/fontStyles';
 import { Identity } from 'types/identityTypes';
-import {
-	isSubstrateNetworkParams,
-	isUnknownNetworkParams
-} from 'types/networkSpecsTypes';
 import { ButtonListener } from 'types/props';
 import {
 	getAddressWithPath,

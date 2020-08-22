@@ -6,14 +6,10 @@ import { useApi } from 'modules/token/hooks';
 import NoCurrentIdentity from 'modules/main/components/NoCurrentIdentity';
 import { SafeAreaViewContainer } from 'components/SafeAreaContainer';
 import OnBoardingView from 'modules/main/components/OnBoading';
-import NetworkSelector from 'modules/main/components/NetworkSelector';
 import { AccountsContext } from 'stores/AccountsContext';
 import { AccountsStoreStateWithIdentity } from 'types/identityTypes';
-import { NavigationAccountIdentityProps, NavigationProps } from 'types/props';
 
-export default function Main(
-	props: NavigationProps<'Main'>
-): React.ReactElement {
+export default function Main(): React.ReactElement {
 	const accountsStore = useContext(AccountsContext);
 	const isApiReady = useApi();
 	const { identities, currentIdentity, loaded, accounts } = accountsStore.state;

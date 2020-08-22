@@ -8,7 +8,6 @@ import testIDs from '../../test/e2e/testIDs';
 import PathCard from './PathCard';
 import Separator from './Separator';
 
-import { ServicesSpecs } from 'constants/servicesSpecs';
 import { AlertStateContext } from 'stores/alertContext';
 import colors from 'styles/colors';
 import TouchableItem from 'components/TouchableItem';
@@ -18,11 +17,7 @@ import {
 	Identity,
 	PathGroup
 } from 'types/identityTypes';
-import {
-	isSubstrateNetworkParams,
-	SubstrateNetworkParams,
-	UnknownNetworkParams
-} from 'types/networkSpecsTypes';
+import { SubstrateNetworkParams } from 'types/networkSpecsTypes';
 import { removeSlash } from 'utils/identitiesUtils';
 import { useSeedRef } from 'utils/seedRefHooks';
 import { unlockSeedPhrase } from 'utils/navigationHelpers';

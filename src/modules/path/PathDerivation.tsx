@@ -17,10 +17,6 @@
 import React, { useRef, useState, useMemo, useContext } from 'react';
 
 import {
-	DerivationServiceSelector,
-	ServiceOptions
-} from 'components/DerivationServiceSelector';
-import {
 	defaultServiceKey,
 	UNKNOWN_SERVICE_KEY
 } from 'constants/servicesSpecs';
@@ -42,10 +38,6 @@ import { alertPathDerivationError } from 'utils/alertUtils';
 import Separator from 'components/Separator';
 import ScreenHeading from 'components/ScreenHeading';
 import PathCard from 'components/PathCard';
-import {
-	DerivationNetworkSelector,
-	NetworkOptions
-} from 'components/DerivationNetworkSelector';
 import { useSeedRef } from 'utils/seedRefHooks';
 import Button from 'components/Button';
 import { KeyboardAwareContainer } from 'modules/unlock/components/Container';

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { hexStripPrefix, isU8a, u8aToHex } from '@polkadot/util';
 
 import QrView from '../../../components/QrView';
@@ -18,7 +18,6 @@ import {
 } from 'components/SafeAreaContainer';
 
 export default function TokenDetails({
-	navigation,
 	route
 }: NavigationProps<'TokenDetails'>): React.ReactElement {
 	const token = route.params.token;

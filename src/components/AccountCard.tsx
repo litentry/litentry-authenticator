@@ -1,9 +1,8 @@
 import React, { ReactElement, useMemo } from 'react';
-import { StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import AccountIcon from './AccountIcon';
-import Address from './Address';
 import TouchableItem from './TouchableItem';
 import AccountPrefixedTitle from './AccountPrefixedTitle';
 
@@ -13,10 +12,7 @@ import {
 	UNKNOWN_SERVICE_KEY
 } from 'constants/servicesSpecs';
 import Separator from 'components/Separator';
-import { NETWORK_LIST, NetworkProtocols } from 'constants/networkSpecs';
-import fontStyles from 'styles/fontStyles';
 import colors from 'styles/colors';
-import { NetworkParams } from 'types/networkSpecsTypes';
 import { ButtonListener } from 'types/props';
 
 const CardSeparator = (): ReactElement => (

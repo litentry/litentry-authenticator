@@ -1,26 +1,24 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import { FlatList, Text, View, SafeAreaView } from 'react-native';
+import React, { useState, useRef, useContext } from 'react';
+import { FlatList, View } from 'react-native';
 import { Keyring } from '@polkadot/api';
 
 import TokenCard from '../components/TokenCard';
-import { useApi, useExtrinsics, useIdentities } from '../hooks';
-import Button from '../../../components/Button';
-import Head from '../components/Head';
+import { useExtrinsics, useIdentities } from '../hooks';
 
-import { getAllPaths } from 'utils/identitiesUtils';
+import { i_arrowOptions } from 'modules/token/styles';
+import ScreenHeading from 'components/ScreenHeading';
 import { alertDeleteAccount, alertError } from 'utils/alertUtils';
 import { generateAccountId } from 'utils/account';
 import PopupModal from 'modules/token/components/PopupModal';
 import { defaultNetworkKey } from 'constants/networkSpecs';
 import QrView from 'components/QrView';
-import fontStyles from 'styles/fontStyles';
 import { AlertStateContext } from 'stores/alertContext';
 import ButtonIcon from 'components/ButtonIcon';
 import { unlockAndReturnSeed } from 'utils/navigationHelpers';
 import QRScannerAndDerivationTab from 'components/QRScannerAndDerivationTab';
 import { withCurrentIdentity } from 'utils/HOC';
 import { SafeAreaViewContainer } from 'components/SafeAreaContainer';
-import { NavigationAccountIdentityProps, NavigationProps } from 'types/props';
+import { NavigationAccountIdentityProps } from 'types/props';
 import fonts from 'styles/fonts';
 import colors from 'styles/colors';
 
@@ -92,9 +90,9 @@ function IdentityList({
 
 	return (
 		<SafeAreaViewContainer style={styles.container}>
-			<Head label="Owned Identities" />
+			<ScreenHeading title="Owned Identities" />
 			<ButtonIcon
-				title="Show QR Code"
+				title="Show Account QR Code"
 				onPress={(): void => setModalVisible(true)}
 				{...i_arrowOptions}
 			/>
@@ -121,7 +119,7 @@ function IdentityList({
 			/>
 			<QRScannerAndDerivationTab
 				onPress={registerNewIdentity}
-				title="Register New"
+				title="Register New Identity"
 			/>
 			<PopupModal
 				title="QR Code"
@@ -134,18 +132,6 @@ function IdentityList({
 }
 
 export default withCurrentIdentity(IdentityList);
-
-const i_arrowOptions = {
-	iconColor: colors.signal.main,
-	iconName: 'arrowright',
-	iconSize: fontStyles.i_medium.fontSize,
-	iconType: 'antdesign',
-	style: {
-		paddingLeft: 64,
-		paddingTop: 0
-	},
-	textStyle: { ...fontStyles.a_text, color: colors.signal.main }
-};
 
 const styles = {
 	container: {
