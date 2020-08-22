@@ -70,6 +70,7 @@ export type Identity = {
 	meta: Map<string, AccountMeta>;
 	addresses: Map<string, string>;
 	name: string;
+	names: Map<string, string>;
 };
 
 export type SerializedIdentity = {

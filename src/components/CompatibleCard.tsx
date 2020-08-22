@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AccountCard from './AccountCard';
 import PathCard from './PathCard';
 
 import { AccountsContextState } from 'stores/AccountsContext';
-import { FoundAccount } from 'types/identityTypes';
-import { isLegacyFoundAccount } from 'utils/identitiesUtils';
+import { FoundIdentityAccount } from 'types/identityTypes';
 
 const CompatibleCard = ({
 	account,
 	accountsStore,
 	titlePrefix
 }: {
-	account: FoundAccount;
+	account: FoundIdentityAccount;
 	accountsStore: AccountsContextState;
 	titlePrefix?: string;
 }): React.ReactElement => (

@@ -7,6 +7,8 @@ import { useApi, useExtrinsics, useIdentities } from '../hooks';
 import Button from '../../../components/Button';
 import Head from '../components/Head';
 
+import { getAllPaths } from 'utils/identitiesUtils';
+import { alertDeleteAccount, alertError } from 'utils/alertUtils';
 import { generateAccountId } from 'utils/account';
 import PopupModal from 'modules/token/components/PopupModal';
 import { defaultNetworkKey } from 'constants/networkSpecs';
@@ -77,12 +79,28 @@ function IdentityList({
 		return <QrView data={accountId} />;
 	}
 
+	function DeleteAccount(): void {
+		alertDeleteAccount(setAlert, 'this account', async () => {
+			try {
+				await accountsStore.deletePath(ownerPath);
+				navigation.navigate('Main');
+			} catch (err) {
+				alertError(setAlert, `Can't delete this account: ${err.toString()}`);
+			}
+		});
+	}
+
 	return (
 		<SafeAreaViewContainer style={styles.container}>
 			<Head label="Owned Identities" />
 			<ButtonIcon
 				title="Show QR Code"
 				onPress={(): void => setModalVisible(true)}
+				{...i_arrowOptions}
+			/>
+			<ButtonIcon
+				title="Delete this Owner"
+				onPress={DeleteAccount}
 				{...i_arrowOptions}
 			/>
 			<FlatList
@@ -100,7 +118,6 @@ function IdentityList({
 						style={{ paddingBottom: 10 }}
 					/>
 				)}
-				enableEmptySections
 			/>
 			<QRScannerAndDerivationTab
 				onPress={registerNewIdentity}
@@ -132,8 +149,6 @@ const i_arrowOptions = {
 
 const styles = {
 	container: {
-		flex: 1,
-		flexDirection: 'column',
 		padding: 20
 	},
 	content: {

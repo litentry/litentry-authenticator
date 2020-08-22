@@ -54,4 +54,5 @@ export type RootStackParamList = {
 	SignedTx: undefined;
 	TermsAndConditions: undefined;
 	TxDetails: undefined;
+	HashName: { hash: string };
 };

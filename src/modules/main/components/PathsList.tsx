@@ -70,10 +70,7 @@ function PathsList({
 	return (
 		<SafeAreaViewContainer>
 			<ScrollView testID={testIDs.PathsList.screen}>
-				<MainScreenLeftHeading
-					title="Identity Owners"
-					hasSubtitleIcon={true}
-				/>
+				<MainScreenLeftHeading title="Identity Owners" hasSubtitleIcon={true} />
 				{(pathsGroups as PathGroup[]).map(pathsGroup =>
 					pathsGroup.paths.length === 1 ? (
 						renderSinglePath(pathsGroup)

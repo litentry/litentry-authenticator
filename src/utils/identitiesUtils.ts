@@ -4,6 +4,10 @@ import { constructSURI, parseSURI } from './suri';
 import { generateAccountId } from './account';
 
 import {
+	SubstrateNetworkParams,
+	UnknownNetworkParams
+} from 'types/networkSpecsTypes';
+import {
 	defaultNetworkPrefix,
 	SERVICES_KEYS,
 	SERVICES_LIST,
@@ -11,20 +15,18 @@ import {
 } from 'constants/servicesSpecs';
 import { TryCreateFunc } from 'utils/seedRefHooks';
 import {
+	NETWORK_LIST,
 	SUBSTRATE_NETWORK_LIST,
 	SubstrateNetworkKeys,
-	UnknownNetworkKeys,
-	unknownNetworkPathId
+	UNKNOWN_NETWORK,
+	UnknownNetworkKeys
 } from 'constants/networkSpecs';
 import {
-	Account,
 	AccountMeta,
-	FoundAccount,
-	FoundLegacyAccount,
+	FoundIdentityAccount,
 	Identity,
 	PathGroup,
-	SerializedIdentity,
-	UnlockedAccount
+	SerializedIdentity
 } from 'types/identityTypes';
 import {
 	centrifugeAmberMetadata,
@@ -40,12 +42,6 @@ import {
 
 //walk around to fix the regular expression support for positive look behind;
 export const removeSlash = (str: string): string => str.replace(/\//g, '');
-
-export function isLegacyFoundAccount(
-	foundAccount: FoundAccount
-): foundAccount is FoundLegacyAccount {
-	return foundAccount.isLegacy;
-}
 
 export const extractPathId = (path: string): string => {
 	const matchNetworkPath = path.match(pathsRegex.networkPath);
@@ -98,7 +94,7 @@ export const getAddressKeyByPath = (
 		? address
 		: generateAccountId({
 				address,
-				networkKey: getServiceKeyByPath(path, pathMeta)
+				networkKey: getPathNetworkKey(path, pathMeta)
 		  });
 };
 
@@ -108,7 +104,8 @@ export function emptyIdentity(): Identity {
 		derivationPassword: '',
 		encryptedSeed: '',
 		meta: new Map(),
-		name: ''
+		name: '',
+		names: new Map()
 	};
 }
 
@@ -160,19 +157,19 @@ export const getAllPaths = (identity: Identity): string[] => {
 };
 
 export const getNetworkKeyByPathId = (pathId: string): string => {
-	return SERVICES_LIST.hasOwnProperty(pathId)
+	return NETWORK_LIST.hasOwnProperty(pathId)
 		? pathId
 		: UnknownNetworkKeys.UNKNOWN;
 };
 
-export const getServiceKey = (path: string, identity: Identity): string => {
+export const getNetworkKey = (path: string, identity: Identity): string => {
 	if (identity.meta.has(path)) {
-		return getServiceKeyByPath(path, identity.meta.get(path)!);
+		return getPathNetworkKey(path, identity.meta.get(path)!);
 	}
 	return UnknownNetworkKeys.UNKNOWN;
 };
 
-export const getServiceKeyByPath = (
+export const getPathNetworkKey = (
 	path: string,
 	pathMeta: AccountMeta
 ): string => {
@@ -180,29 +177,8 @@ export const getServiceKeyByPath = (
 	return getNetworkKeyByPathId(pathId);
 };
 
-export const parseFoundLegacyAccount = (
-	legacyAccount: Account,
-	accountId: string
-): FoundLegacyAccount => {
-	const returnAccount: FoundLegacyAccount = {
-		accountId,
-		address: legacyAccount.address,
-		createdAt: legacyAccount.createdAt,
-		encryptedSeed: legacyAccount.encryptedSeed,
-		isLegacy: true,
-		name: legacyAccount.name,
-		networkKey: legacyAccount.networkKey,
-		updatedAt: legacyAccount.updatedAt,
-		validBip39Seed: legacyAccount.validBip39Seed
-	};
-	if (legacyAccount.hasOwnProperty('derivationPath')) {
-		returnAccount.path = (legacyAccount as UnlockedAccount).derivationPath;
-	}
-	return returnAccount;
-};
-
 export const getIdentityFromSender = (
-	sender: FoundAccount,
+	sender: FoundIdentityAccount,
 	identities: Identity[]
 ): Identity | undefined =>
 	identities.find(i => i.encryptedSeed === sender.encryptedSeed);
@@ -243,7 +219,7 @@ export const verifyPassword = async (
 		password: password,
 		phrase: seedPhrase
 	});
-	const networkKey = getServiceKey(path, identity);
+	const networkKey = getNetworkKey(path, identity);
 	const networkParams = SUBSTRATE_NETWORK_LIST[networkKey];
 	const address = await substrateAddress(suri, defaultNetworkPrefix);
 	const accountMeta = identity.meta.get(path);
@@ -254,12 +230,22 @@ export const getExistedServicesKeys = (identity: Identity): string[] => {
 	const pathEntries = Array.from(identity.meta.entries());
 	const networkKeysSet = pathEntries.reduce(
 		(networksSet, [path, pathMeta]: [string, AccountMeta]) => {
-			const networkKey = getServiceKeyByPath(path, pathMeta);
+			const networkKey = getPathNetworkKey(path, pathMeta);
 			return { ...networksSet, [networkKey]: true };
 		},
 		{}
 	);
 	return Object.keys(networkKeysSet);
+};
+
+export const getNetworkParams = (
+	networkKey: string | undefined
+): SubstrateNetworkParams | UnknownNetworkParams => {
+	if (networkKey === undefined)
+		return UNKNOWN_NETWORK[UnknownNetworkKeys.UNKNOWN];
+	return SUBSTRATE_NETWORK_LIST.hasOwnProperty(networkKey)
+		? SUBSTRATE_NETWORK_LIST[networkKey]
+		: UNKNOWN_NETWORK[UnknownNetworkKeys.UNKNOWN];
 };
 
 export const validateDerivedPath = (derivedPath: string): boolean =>

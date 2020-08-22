@@ -6,7 +6,7 @@ import { Icon } from 'react-native-elements';
 import ButtonIcon from './ButtonIcon';
 import AccountIcon from './AccountIcon';
 
-import {SERVICES_KEYS, SERVICES_LIST} from 'constants/servicesSpecs';
+import { SERVICES_KEYS, SERVICES_LIST } from 'constants/servicesSpecs';
 import testIDs from 'e2e/testIDs';
 import fontStyles from 'styles/fontStyles';
 import fonts from 'styles/fonts';

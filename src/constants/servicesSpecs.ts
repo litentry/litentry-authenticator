@@ -33,7 +33,7 @@ export const SERVICES_KEYS: Record<string, string> = {
 	WECHAT: 'wechat',
 	LITENTRY_PLAYGROUND: 'litentry',
 	AMAZON: 'amazon',
-	POLKADOT: 'polkadot',
+	POLKADOT: 'polkadot'
 };
 
 export const KNOWN_SERVICES_LIST: Record<string, KnownServicesSpecs> = {
@@ -81,4 +81,4 @@ export const SERVICES_LIST: Record<string, ServicesSpecs> = {
 
 export const defaultServiceKey = SERVICES_KEYS.LITENTRY_PLAYGROUND;
 export const defaultNetworkPrefix =
-	SUBSTRATE_NETWORK_LIST[SubstrateNetworkKeys.POLKADOT].prefix;
+	SUBSTRATE_NETWORK_LIST[SubstrateNetworkKeys.LITENTRY].prefix;

@@ -7,7 +7,11 @@ import Address from './Address';
 import TouchableItem from './TouchableItem';
 import AccountPrefixedTitle from './AccountPrefixedTitle';
 
-import { SERVICES_LIST, UNKNOWN_SERVICE_KEY } from 'constants/servicesSpecs';
+import {
+	SERVICES_LIST,
+	ServicesSpecs,
+	UNKNOWN_SERVICE_KEY
+} from 'constants/servicesSpecs';
 import Separator from 'components/Separator';
 import { NETWORK_LIST, NetworkProtocols } from 'constants/networkSpecs';
 import fontStyles from 'styles/fontStyles';
@@ -31,7 +35,7 @@ const NetworkFooter = ({
 	network
 }: {
 	networkColor: string;
-	network: NetworkParams;
+	network: ServicesSpecs;
 }): React.ReactElement => (
 	<View
 		style={[

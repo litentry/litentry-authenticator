@@ -33,7 +33,7 @@ import TextInput from 'components/TextInput';
 import { withCurrentIdentity } from 'utils/HOC';
 import {
 	extractPathId,
-	getServiceKey,
+	getNetworkKey,
 	getNetworkKeyByPathId,
 	validateDerivedPath
 } from 'utils/identitiesUtils';
@@ -55,7 +55,7 @@ function getParentServiceKey(
 	currentIdentity: Identity
 ): string {
 	if (currentIdentity.meta.has(parentPath)) {
-		return getServiceKey(parentPath, currentIdentity);
+		return getNetworkKey(parentPath, currentIdentity);
 	}
 	const pathId = extractPathId(parentPath);
 	return getNetworkKeyByPathId(pathId);
@@ -144,12 +144,6 @@ function PathDerivation({
 				testID={testIDs.PathDerivation.nameInput}
 				value={keyPairsName}
 			/>
-			{enableCustomNetwork && (
-				<DerivationServiceSelector
-					serviceKey={customServiceKey}
-					setVisible={setModalVisible}
-				/>
-			)}
 			<Separator style={{ height: 0 }} />
 			<PasswordInput
 				password={password}
@@ -169,13 +163,6 @@ function PathDerivation({
 				testID={testIDs.PathDerivation.deriveButton}
 				onPress={onPathDerivation}
 			/>
-			{enableCustomNetwork && (
-				<ServiceOptions
-					setServiceKey={setCustomServiceKey}
-					visible={modalVisible}
-					setVisible={setModalVisible}
-				/>
-			)}
 		</KeyboardAwareContainer>
 	);
 }

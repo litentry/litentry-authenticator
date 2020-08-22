@@ -272,4 +272,4 @@ export const NETWORK_LIST: { [key: string]: NetworkParams } = Object.freeze(
 	)
 );
 
-export const defaultNetworkKey = SubstrateNetworkKeys.POLKADOT;
+export const defaultNetworkKey = SubstrateNetworkKeys.LITENTRY;

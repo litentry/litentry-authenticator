@@ -17,7 +17,7 @@ export default function QrScannerTab(): React.ReactElement {
 
 	return (
 		<TouchableItem
-			onPress={(): void => navigateToQrScanner(navigation)}
+			onPress={(): void => navigation.navigate('QrScanner')}
 			testID={testIDs.SecurityHeader.scanButton}
 			style={styles.body}
 		>

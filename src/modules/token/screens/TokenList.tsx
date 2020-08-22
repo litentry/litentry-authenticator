@@ -5,20 +5,23 @@ import TokenCard from '../components/TokenCard';
 import { useTokens } from '../hooks';
 import QrView from '../../../components/QrView';
 
+import { NavigationAccountIdentityProps } from 'types/props';
+import { SafeAreaViewContainer } from 'components/SafeAreaContainer';
 import fonts from 'styles/fonts';
 import colors from 'styles/colors';
 
-export default function TokenList({ navigation }) {
+export default function TokenList({
+	navigation,
+	route
+}: NavigationAccountIdentityProps<'TokenList'>) {
 	// this is the actual default endpoint
-	const list = useRef(null);
-	const identity = navigation.getParam('identity');
-	const tokens = useTokens(identity);
-
+	const identityHash = route.params.identity;
+	const tokens = useTokens(identityHash);
+	console.log('tokens are', tokens);
 	return (
-		<SafeAreaView style={styles.container}>
-			{identity != null && <QrView data={identity} />}
+		<SafeAreaViewContainer style={styles.container}>
+			<QrView data={'address:' + identityHash.toString()} />
 			<FlatList
-				ref={list}
 				style={styles.content}
 				data={tokens}
 				keyExtractor={i => i}
@@ -32,20 +35,18 @@ export default function TokenList({ navigation }) {
 						style={{ paddingBottom: 10 }}
 					/>
 				)}
-				enableEmptySections
 			/>
-		</SafeAreaView>
+		</SafeAreaViewContainer>
 	);
 }
 
 const styles = {
 	container: {
-		flex: 1,
-		flexDirection: 'column',
 		padding: 20
 	},
 	content: {
-		flex: 1
+		flex: 1,
+		backgroundColor: colors.background.app
 	},
 	loadingContainer: {
 		flex: 1,

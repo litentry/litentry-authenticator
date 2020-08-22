@@ -24,7 +24,7 @@ import {
 import { ButtonListener } from 'types/props';
 import {
 	getAddressWithPath,
-	getServiceKeyByPath,
+	getPathNetworkKey,
 	getPathName
 } from 'utils/identitiesUtils';
 import { useSeedRef } from 'utils/seedRefHooks';
@@ -55,7 +55,7 @@ export default function PathCard({
 	);
 	const [address, setAddress] = useState('');
 	const computedNetworkKey =
-		networkKey || getServiceKeyByPath(path, identity.meta.get(path)!);
+		networkKey || getPathNetworkKey(path, identity.meta.get(path)!);
 	useEffect(() => {
 		const getAddress = async (): Promise<void> => {
 			const existedAddress = getAddressWithPath(path, identity);

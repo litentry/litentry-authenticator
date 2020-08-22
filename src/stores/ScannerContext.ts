@@ -11,7 +11,7 @@ import React, { useReducer } from 'react';
 
 import { AccountsContextState } from 'stores/AccountsContext';
 import { NETWORK_LIST, NetworkProtocols } from 'constants/networkSpecs';
-import { Account, FoundAccount } from 'types/identityTypes';
+import { Account, FoundIdentityAccount } from 'types/identityTypes';
 import {
 	CompletedParsedData,
 	EthereumParsedData,
@@ -61,8 +61,8 @@ type ScannerStoreState = {
 	missedFrames: Array<number>;
 	multipartData: null | Array<Uint8Array | null>;
 	multipartComplete: boolean;
-	recipient: FoundAccount | null;
-	sender: FoundAccount | null;
+	recipient: FoundIdentityAccount | null;
+	sender: FoundIdentityAccount | null;
 	signedData: string;
 	signedTxList: SignedTX[];
 	totalFrameCount: number;
@@ -313,7 +313,7 @@ export function useScannerContext(): ScannerContextState {
 			dataToSign: dataToSign as string,
 			isHash: false,
 			isOversized,
-			recipient: recipient as FoundAccount,
+			recipient: recipient as FoundIdentityAccount,
 			sender,
 			tx,
 			type: 'transaction'

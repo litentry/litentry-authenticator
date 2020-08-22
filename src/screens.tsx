@@ -11,6 +11,10 @@ import {
 import * as React from 'react';
 import { View } from 'react-native';
 
+import Scanner from 'modules/sign/screens/QrScanner';
+import SignedMessage from 'modules/sign/screens/SignedMessage';
+import SignedTx from 'modules/sign/screens/SignedTx';
+import HashName from 'modules/token/screens/HashName';
 import IdentityList from 'modules/token/screens/IdentityList';
 import ReceivedTokenList from 'modules/token/screens/ReceivedTokenList';
 import TokenDetails from 'modules/token/screens/TokenDetails';
@@ -104,10 +108,14 @@ export const AppNavigator = (): React.ReactElement => (
 		<ScreenStack.Screen name="TokenList" component={TokenList} />
 		<ScreenStack.Screen name="PinNew" component={PinNew} />
 		<ScreenStack.Screen name="PinUnlock" component={PinUnlock} />
+		<ScreenStack.Screen name="HashName" component={HashName} />
 		<ScreenStack.Screen
 			name="PinUnlockWithPassword"
 			component={PinUnlockWithPassword}
 		/>
 		<ScreenStack.Screen name="PathDerivation" component={PathDerivation} />
+		<ScreenStack.Screen name="QrScanner" component={Scanner} />
+		<ScreenStack.Screen name="SignedMessage" component={SignedMessage} />
+		<ScreenStack.Screen name="SignedTx" component={SignedTx} />
 	</ScreenStack.Navigator>
 );

@@ -9,6 +9,7 @@ declare global {
     namespace NodeJS {
         interface Global {
             inTest: boolean;
+            scanRequest?: ScanTestRequest;
         }
     }
     // declare webpack modules
