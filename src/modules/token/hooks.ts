@@ -126,16 +126,13 @@ export function useTokens(identityId: string): string[] {
 	useEffect(() => {
 		async function fetchTokens() {
 			if (identityId === null || identityId === '') return;
-			const totalNumbersRaw = await api.query.litentry.identityAuthorizedTokensCount<
+			const totalNumbersRaw = await api.query.litentry.ownedAuthorizedTokensCount<
 				u64
 			>(identityId);
 			const totalNumbers = totalNumbersRaw.toNumber();
 			const a = new Array(totalNumbers).fill(null);
 			const promises = a.map((_, i) => {
-				return api.query.litentry.identityAuthorizedTokensArray([
-					identityId,
-					i
-				]);
+				return api.query.litentry.ownedAuthorizedTokensArray([identityId, i]);
 			});
 			console.log('promises are', promises);
 			const results = await Promise.all(promises);

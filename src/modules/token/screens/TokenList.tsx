@@ -27,12 +27,12 @@ export default function TokenList({
 		<SafeAreaViewContainer style={styles.container}>
 			<ScreenHeading title="Identity Related Tokens" />
 			<ButtonIcon
-				title="Show Identity QR Code"
+				title="Show Identity Authentication Code"
 				onPress={(): void => setModalVisible(true)}
 				{...i_arrowOptions}
 			/>
 			<PopupModal
-				title="QR Code"
+				title="Authentication Code"
 				visible={modalVisible}
 				setVisible={setModalVisible}
 				innerComponent={<QrView data={'address:' + identityHash.toString()} />}

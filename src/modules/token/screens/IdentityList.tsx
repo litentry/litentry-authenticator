@@ -5,6 +5,7 @@ import { Keyring } from '@polkadot/api';
 import TokenCard from '../components/TokenCard';
 import { useExtrinsics, useIdentities } from '../hooks';
 
+import { dumbMeta } from 'types/identityTypes';
 import { i_arrowOptions } from 'modules/token/styles';
 import ScreenHeading from 'components/ScreenHeading';
 import { alertDeleteAccount, alertError } from 'utils/alertUtils';
@@ -32,10 +33,12 @@ function IdentityList({
 	const list = useRef(null);
 	const ownerPath = route.params.ownerPath;
 	const { setAlert } = useContext(AlertStateContext);
-	const ownerMeta = currentIdentity.meta.get(ownerPath)!;
+	const ownerMeta = currentIdentity.meta.get(ownerPath) || dumbMeta;
 	const identities = useIdentities(ownerMeta.address);
 	const { registerIdentity } = useExtrinsics();
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+	if (ownerMeta === dumbMeta) return <View />;
 	const accountId = generateAccountId({
 		address: ownerMeta.address,
 		networkKey: defaultNetworkKey
@@ -81,7 +84,7 @@ function IdentityList({
 		alertDeleteAccount(setAlert, 'this account', async () => {
 			try {
 				await accountsStore.deletePath(ownerPath);
-				navigation.navigate('Main');
+				navigation.pop();
 			} catch (err) {
 				alertError(setAlert, `Can't delete this account: ${err.toString()}`);
 			}

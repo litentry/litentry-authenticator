@@ -36,6 +36,16 @@ export type AccountMeta = {
 	name: string;
 	updatedAt: number;
 	networkPathId?: string;
+	dataManifest: string;
+};
+
+export const dumbMeta = {
+	address: '',
+	createdAt: 0,
+	hasPassword: false,
+	name: '',
+	updatedAt: 0,
+	dataManifest: ''
 };
 
 export interface FoundIdentityAccount extends AccountMeta {
