@@ -59,7 +59,20 @@ export function useApi(): boolean {
 	return isApiReady;
 }
 
-export function useIdentities(account: string): string[] {
+export async function getLastIdentity(account: string): Promise<string | void> {
+	if (account === null || account === '') return;
+	const totalNumbersRaw: u64 = await api.query.litentry.ownedIdentitiesCount<
+		u64
+	>(account);
+	const totalNumbers = totalNumbersRaw.toNumber();
+	const lastIdentityRaw = await api.query.litentry.ownedIdentitiesArray([
+		account,
+		totalNumbers - 1
+	]);
+	return lastIdentityRaw.toString();
+}
+
+export function useIdentities(account: string, updateIndex: number): string[] {
 	const [identities, setIdentities] = useState<string[]>([]);
 	useEffect(() => {
 		async function queryTokenIdentity() {
@@ -85,8 +98,9 @@ export function useIdentities(account: string): string[] {
 			);
 			setIdentities(unwrappedResult);
 		}
+		console.log('start fetch identities');
 		queryTokenIdentity();
-	}, [account]);
+	}, [account, updateIndex]);
 	return identities;
 }
 
@@ -176,7 +190,6 @@ type LitentryExtrinsics = {
 };
 
 export function useExtrinsics(): LitentryExtrinsics {
-	console.log('tx is', api.tx.litentry);
 	return {
 		registerIdentity: api.tx.litentry.registerIdentity
 	};

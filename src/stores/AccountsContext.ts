@@ -44,10 +44,6 @@ import { constructSuriSuffix } from 'utils/suri';
 export type AccountsContextState = {
 	clearIdentity: () => void;
 	state: AccountsStoreState;
-	deriveEthereumAccount: (
-		createBrainWalletAddress: TryBrainWalletAddress,
-		networkKey: string
-	) => Promise<void>;
 	updateSelectedAccount: (updatedAccount: Partial<LockedAccount>) => void;
 	getById: ({
 		address,
@@ -141,34 +137,6 @@ export function useAccountContext(): AccountsContextState {
 	function updateIdentityName(name: string): void {
 		const updatedCurrentIdentity = deepCopyIdentity(state.currentIdentity!);
 		updatedCurrentIdentity.name = name;
-		_updateCurrentIdentity(updatedCurrentIdentity);
-	}
-
-	async function deriveEthereumAccount(
-		createBrainWalletAddress: TryBrainWalletAddress,
-		networkKey: string
-	): Promise<void> {
-		const networkParams = ETHEREUM_NETWORK_LIST[networkKey];
-		const ethereumAddress = await brainWalletAddressWithRef(
-			createBrainWalletAddress
-		);
-		if (ethereumAddress.address === '') throw new Error(addressGenerateError);
-		const { ethereumChainId } = networkParams;
-		const accountId = generateAccountId({
-			address: ethereumAddress.address,
-			networkKey
-		});
-		if (state.currentIdentity === null) throw new Error(emptyIdentityError);
-		const updatedCurrentIdentity = deepCopyIdentity(state.currentIdentity);
-		if (updatedCurrentIdentity.meta.has(ethereumChainId))
-			throw new Error(accountExistedError);
-		updatedCurrentIdentity.meta.set(ethereumChainId, {
-			address: ethereumAddress.address,
-			createdAt: new Date().getTime(),
-			name: '',
-			updatedAt: new Date().getTime()
-		});
-		updatedCurrentIdentity.addresses.set(accountId, ethereumChainId);
 		_updateCurrentIdentity(updatedCurrentIdentity);
 	}
 
@@ -442,7 +410,6 @@ export function useAccountContext(): AccountsContextState {
 		clearIdentity,
 		deleteCurrentIdentity,
 		deletePath,
-		deriveEthereumAccount,
 		deriveNewPath,
 		getAccountByAddress,
 		getById,

@@ -3,8 +3,9 @@ import { FlatList, View } from 'react-native';
 import { Keyring } from '@polkadot/api';
 
 import TokenCard from '../components/TokenCard';
-import { useExtrinsics, useIdentities } from '../hooks';
+import { getLastIdentity, useExtrinsics, useIdentities } from '../hooks';
 
+import { getIpfsAddress, openIpfsIdentityDb } from 'modules/token/utils';
 import { dumbMeta } from 'types/identityTypes';
 import { i_arrowOptions } from 'modules/token/styles';
 import ScreenHeading from 'components/ScreenHeading';
@@ -34,7 +35,8 @@ function IdentityList({
 	const ownerPath = route.params.ownerPath;
 	const { setAlert } = useContext(AlertStateContext);
 	const ownerMeta = currentIdentity.meta.get(ownerPath) || dumbMeta;
-	const identities = useIdentities(ownerMeta.address);
+	const [updateIndex, setUpdateIndex] = useState(0);
+	const identities = useIdentities(ownerMeta.address, updateIndex);
 	const { registerIdentity } = useExtrinsics();
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
 
@@ -48,23 +50,33 @@ function IdentityList({
 		const keyring = new Keyring({ type: 'sr25519' });
 		const seed = await unlockAndReturnSeed(navigation);
 		const newPair = keyring.addFromUri(seed + ownerPath);
-		console.log('paris is', keyring.pairs);
-		console.log('current keyring is', keyring);
+		console.log('pairs are', keyring.pairs);
 		try {
-			const unsub = await registerIdentity().signAndSend(newPair, result => {
-				console.log('Current result is', result);
-				console.log('Current result status is', result.status);
-				if (result.status.isInBlock) {
-					console.log(
-						`Transaction included at blockHash ${result.status.asInBlock}`
-					);
-				} else if (result.status.isFinalized) {
-					console.log(
-						`Transaction finalized at blockHash ${result.status.asFinalized}`
-					);
-					unsub();
+			const unsub = await registerIdentity().signAndSend(
+				newPair,
+				async result => {
+					console.log('Current result is', result);
+					console.log('Current result status is', result.status);
+					if (result.status.isInBlock) {
+						console.log(
+							`Transaction included at blockHash ${result.status.asInBlock}`
+						);
+						const addedIdentity = await getLastIdentity(ownerMeta.address);
+						if (addedIdentity !== undefined) {
+							console.log('last identity is', addedIdentity);
+							const ipfsAddress = await getIpfsAddress(addedIdentity);
+							console.log('ipfsAddress is', ipfsAddress);
+							openIpfsIdentityDb(addedIdentity);
+						}
+						setUpdateIndex(updateIndex + 1);
+					} else if (result.status.isFinalized) {
+						console.log(
+							`Transaction finalized at blockHash ${result.status.asFinalized}`
+						);
+						unsub();
+					}
 				}
-			});
+			);
 		} catch (e) {
 			console.log('e is', e);
 			setAlert(
@@ -72,6 +84,7 @@ function IdentityList({
 				'Please check if the account has enough token, or use Polkadot.js default account like Alice to send some tokens to this account'
 			);
 		} finally {
+			// setUpdateIndex(updateIndex + 1);
 			navigation.pop();
 		}
 	};

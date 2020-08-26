@@ -105,7 +105,7 @@ export function emptyIdentity(): Identity {
 		encryptedSeed: '',
 		meta: new Map(),
 		name: '',
-		names: new Map()
+		ipfs: new Map()
 	};
 }
 

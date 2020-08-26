@@ -73,6 +73,11 @@ export interface FoundLegacyAccount {
 
 export type FoundAccount = FoundIdentityAccount | FoundLegacyAccount;
 
+export type IpfsIdentity = {
+	name: string;
+	address: string;
+};
+
 export type Identity = {
 	// encrypted seed include seedPhrase and password
 	encryptedSeed: string;
@@ -80,7 +85,7 @@ export type Identity = {
 	meta: Map<string, AccountMeta>;
 	addresses: Map<string, string>;
 	name: string;
-	names: Map<string, string>;
+	ipfs: Map<string, IpfsIdentity>;
 };
 
 export type SerializedIdentity = {
@@ -89,6 +94,7 @@ export type SerializedIdentity = {
 	meta: Array<[string, AccountMeta]>;
 	addresses: Array<[string, string]>;
 	name: string;
+	ipfs: Array<[string, IpfsIdentity]>;
 };
 
 export type AccountsStoreState = {

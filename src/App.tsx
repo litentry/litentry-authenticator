@@ -28,6 +28,7 @@ export default function App(): React.ReactElement {
 			'Sending `onAnimatedValueUpdate`',
 			'MenuProviders',
 			'currentlyFocusedField',
+			'Remote debugger is in a background',
 			'Non-serializable values were found in the navigation state' // https://reactnavigation.org/docs/troubleshooting/#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
 		]);
 	}
