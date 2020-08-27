@@ -65,10 +65,16 @@ function IdentityList({
 						if (addedIdentity !== undefined) {
 							console.log('last identity is', addedIdentity);
 							const ipfsAddress = await getIpfsAddress(addedIdentity);
-							console.log('ipfsAddress is', ipfsAddress);
-							openIpfsIdentityDb(addedIdentity);
+							if (ipfsAddress !== null) {
+								accountsStore.addIpfsIdentity(addedIdentity, {
+									name: '',
+									address: ipfsAddress
+								});
+								console.log('ipfsAddress is', ipfsAddress);
+								openIpfsIdentityDb(addedIdentity);
+							}
+							setUpdateIndex(updateIndex + 1);
 						}
-						setUpdateIndex(updateIndex + 1);
 					} else if (result.status.isFinalized) {
 						console.log(
 							`Transaction finalized at blockHash ${result.status.asFinalized}`

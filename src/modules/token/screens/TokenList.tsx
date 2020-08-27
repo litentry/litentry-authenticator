@@ -15,27 +15,47 @@ import fonts from 'styles/fonts';
 import colors from 'styles/colors';
 
 export default function TokenList({
+	accountsStore,
 	navigation,
 	route
 }: NavigationAccountIdentityProps<'TokenList'>) {
 	// this is the actual default endpoint
 	const identityHash = route.params.identity;
+	const ipfsAddress =
+		accountsStore.state.currentIdentity.ipfs.get(identityHash)?.address ?? '';
 	const tokens = useTokens(identityHash);
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
+	const [qrTitle, setQrTitle] = useState<string>('');
+	const [qrData, setQrData] = useState<string>('');
 	console.log('tokens are', tokens);
 	return (
 		<SafeAreaViewContainer style={styles.container}>
 			<ScreenHeading title="Identity Related Tokens" />
 			<ButtonIcon
 				title="Show Identity Authentication Code"
-				onPress={(): void => setModalVisible(true)}
+				onPress={(): void => {
+					setQrTitle('Authentication Code');
+					setQrData('address:' + identityHash.toString());
+					setModalVisible(true);
+				}}
 				{...i_arrowOptions}
 			/>
+			{ipfsAddress !== '' && (
+				<ButtonIcon
+					title="Show Identity IPFS Address"
+					onPress={(): void => {
+						setQrTitle('Identity IPFS Address');
+						setQrData(ipfsAddress);
+						setModalVisible(true);
+					}}
+					{...i_arrowOptions}
+				/>
+			)}
 			<PopupModal
-				title="Authentication Code"
+				title={qrTitle}
 				visible={modalVisible}
 				setVisible={setModalVisible}
-				innerComponent={<QrView data={'address:' + identityHash.toString()} />}
+				innerComponent={<QrView data={qrData} />}
 			/>
 			<FlatList
 				style={styles.content}

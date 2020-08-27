@@ -13,6 +13,7 @@ import {
 	AccountsStoreState,
 	FoundIdentityAccount,
 	Identity,
+	IpfsIdentity,
 	LockedAccount
 } from 'types/identityTypes';
 import { emptyAccount, generateAccountId } from 'utils/account';
@@ -73,6 +74,7 @@ export type AccountsContextState = {
 	) => Promise<void>;
 	deletePath: (path: string) => void;
 	deleteCurrentIdentity: () => Promise<void>;
+	addIpfsIdentity: (identityHash: string, identityMeta: IpfsIdentity) => void;
 };
 
 const defaultAccountState = {
@@ -156,29 +158,6 @@ export function useAccountContext(): AccountsContextState {
 
 	function updateSelectedAccount(updatedAccount: Partial<LockedAccount>): void {
 		_updateAccount(state.selectedKey, updatedAccount);
-	}
-
-	function _getAccountWithoutCaseSensitive(accountId: string): Account | null {
-		let findLegacyAccount = null;
-		for (const [key, value] of state.accounts) {
-			if (isEthereumAccountId(accountId)) {
-				if (key.toLowerCase() === accountId.toLowerCase()) {
-					findLegacyAccount = value;
-					break;
-				}
-			} else if (key === accountId) {
-				findLegacyAccount = value;
-				break;
-			} else if (
-				//backward compatible with hard spoon substrate key pairs
-				extractAddressFromAccountId(key) ===
-				extractAddressFromAccountId(accountId)
-			) {
-				findLegacyAccount = value;
-				break;
-			}
-		}
-		return findLegacyAccount;
 	}
 
 	function _getAccountFromIdentity(
@@ -406,6 +385,16 @@ export function useAccountContext(): AccountsContextState {
 		await saveIdentities(newIdentities);
 	}
 
+	function addIpfsIdentity(
+		identityHash: string,
+		identityMeta: IpfsIdentity
+	): void {
+		if (state.currentIdentity === null) throw new Error(emptyIdentityError);
+		const updatedCurrentIdentity = deepCopyIdentity(state.currentIdentity!);
+		updatedCurrentIdentity.ipfs.set(identityHash, identityMeta);
+		_updateCurrentIdentity(updatedCurrentIdentity);
+	}
+
 	return {
 		clearIdentity,
 		deleteCurrentIdentity,
@@ -421,7 +410,8 @@ export function useAccountContext(): AccountsContextState {
 		updateIdentityName,
 		updateNewIdentity,
 		updatePathName,
-		updateSelectedAccount
+		updateSelectedAccount,
+		addIpfsIdentity
 	};
 }
 

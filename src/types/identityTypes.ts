@@ -36,7 +36,6 @@ export type AccountMeta = {
 	name: string;
 	updatedAt: number;
 	networkPathId?: string;
-	dataManifest: string;
 };
 
 export const dumbMeta = {
@@ -44,8 +43,7 @@ export const dumbMeta = {
 	createdAt: 0,
 	hasPassword: false,
 	name: '',
-	updatedAt: 0,
-	dataManifest: ''
+	updatedAt: 0
 };
 
 export interface FoundIdentityAccount extends AccountMeta {
