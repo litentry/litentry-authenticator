@@ -14,7 +14,7 @@ import ScreenHeading, { IdentityHeading } from 'components/ScreenHeading';
 import testIDs from 'e2e/testIDs';
 import { AlertStateContext } from 'stores/alertContext';
 import colors from 'styles/colors';
-import { NavigationAccountIdentityProps } from 'types/props';
+import { NavigationWithCurrentIdentityAndAccountsStoreProps } from 'types/props';
 import { alertPathDerivationError } from 'utils/alertUtils';
 import { withCurrentIdentity } from 'utils/HOC';
 import { getExistedServicesKeys, getIdentityName } from 'utils/identitiesUtils';
@@ -36,7 +36,9 @@ function NetworkSelector({
 	accountsStore,
 	navigation,
 	route
-}: NavigationAccountIdentityProps<'Main'>): React.ReactElement {
+}: NavigationWithCurrentIdentityAndAccountsStoreProps<
+	'Main'
+>): React.ReactElement {
 	const isNew = route.params?.isNew ?? false;
 	const [shouldShowMoreNetworks, setShouldShowMoreNetworks] = useState(false);
 	const { identities, currentIdentity } = accountsStore.state;

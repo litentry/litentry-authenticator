@@ -24,7 +24,7 @@ import PasswordInput from 'components/PasswordInput';
 import testIDs from 'e2e/testIDs';
 import { AlertStateContext } from 'stores/alertContext';
 import { Identity } from 'types/identityTypes';
-import { NavigationAccountIdentityProps } from 'types/props';
+import { NavigationWithCurrentIdentityAndAccountsStoreProps } from 'types/props';
 import TextInput from 'components/TextInput';
 import { withCurrentIdentity } from 'utils/HOC';
 import {
@@ -57,7 +57,9 @@ function PathDerivation({
 	accountsStore,
 	navigation,
 	route
-}: NavigationAccountIdentityProps<'PathDerivation'>): React.ReactElement {
+}: NavigationWithCurrentIdentityAndAccountsStoreProps<
+	'PathDerivation'
+>): React.ReactElement {
 	const [derivationPath, setDerivationPath] = useState<string>('');
 	const [keyPairsName, setKeyPairsName] = useState<string>('');
 	const [modalVisible, setModalVisible] = useState<boolean>(false);

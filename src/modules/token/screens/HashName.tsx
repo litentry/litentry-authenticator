@@ -17,7 +17,7 @@
 import React from 'react';
 
 import { SafeAreaScrollViewContainer } from 'components/SafeAreaContainer';
-import { NavigationAccountIdentityProps } from 'types/props';
+import { NavigationWithCurrentIdentityAndAccountsStoreProps } from 'types/props';
 import { withCurrentIdentity } from 'utils/HOC';
 import TextInput from 'components/TextInput';
 import PathCard from 'components/PathCard';
@@ -25,7 +25,9 @@ import PathCard from 'components/PathCard';
 function HashName({
 	accountsStore,
 	route
-}: NavigationAccountIdentityProps<'PathManagement'>): React.ReactElement {
+}: NavigationWithCurrentIdentityAndAccountsStoreProps<
+	'PathManagement'
+>): React.ReactElement {
 	const path = route.params.path ?? '';
 	const { currentIdentity } = accountsStore.state;
 	const pathName = currentIdentity.meta.get(path)?.name;

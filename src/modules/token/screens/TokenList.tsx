@@ -5,24 +5,27 @@ import TokenCard from '../components/TokenCard';
 import { useTokens } from '../hooks';
 import QrView from '../../../components/QrView';
 
+import { withCurrentIdentity } from 'utils/HOC';
 import { i_arrowOptions } from 'modules/token/styles';
 import PopupModal from 'modules/token/components/PopupModal';
 import ScreenHeading from 'components/ScreenHeading';
 import ButtonIcon from 'components/ButtonIcon';
-import { NavigationAccountIdentityProps } from 'types/props';
+import { NavigationWithCurrentIdentityAndAccountsStoreProps } from 'types/props';
 import { SafeAreaViewContainer } from 'components/SafeAreaContainer';
 import fonts from 'styles/fonts';
 import colors from 'styles/colors';
 
-export default function TokenList({
+export function TokenList({
 	accountsStore,
 	navigation,
 	route
-}: NavigationAccountIdentityProps<'TokenList'>) {
+}: NavigationWithCurrentIdentityAndAccountsStoreProps<
+	'TokenList'
+>): React.ReactElement {
 	// this is the actual default endpoint
+	const { currentIdentity } = accountsStore.state;
 	const identityHash = route.params.identity;
-	const ipfsAddress =
-		accountsStore.state.currentIdentity.ipfs.get(identityHash)?.address ?? '';
+	const ipfsAddress = currentIdentity.ipfs.get(identityHash)?.address ?? '';
 	const tokens = useTokens(identityHash);
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
 	const [qrTitle, setQrTitle] = useState<string>('');
@@ -75,6 +78,8 @@ export default function TokenList({
 		</SafeAreaViewContainer>
 	);
 }
+
+export default withCurrentIdentity(TokenList);
 
 const styles = {
 	container: {

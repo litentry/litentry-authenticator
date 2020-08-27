@@ -3,8 +3,9 @@ import { StyleSheet, View } from 'react-native';
 
 import { SafeAreaViewContainer } from 'components/SafeAreaContainer';
 import testIDs from 'e2e/testIDs';
+import { AccountsContext } from 'stores/AccountsContext';
 import { AlertStateContext } from 'stores/alertContext';
-import { NavigationAccountIdentityProps } from 'types/props';
+import { NavigationWithCurrentIdentityAndAccountsStoreProps } from 'types/props';
 import { withCurrentIdentity } from 'utils/HOC';
 import TextInput from 'components/TextInput';
 import {
@@ -18,7 +19,9 @@ import colors from 'styles/colors';
 import PopupMenu from 'components/PopupMenu';
 import { useSeedRef } from 'utils/seedRefHooks';
 
-type Props = NavigationAccountIdentityProps<'IdentityManagement'>;
+type Props = NavigationWithCurrentIdentityAndAccountsStoreProps<
+	'IdentityManagement'
+>;
 
 function IdentityManagement({
 	accountsStore,

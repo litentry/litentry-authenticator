@@ -20,7 +20,7 @@ import { unlockAndReturnSeed } from 'utils/navigationHelpers';
 import QRScannerAndDerivationTab from 'components/QRScannerAndDerivationTab';
 import { withCurrentIdentity } from 'utils/HOC';
 import { SafeAreaViewContainer } from 'components/SafeAreaContainer';
-import { NavigationAccountIdentityProps } from 'types/props';
+import { NavigationWithCurrentIdentityAndAccountsStoreProps } from 'types/props';
 import fonts from 'styles/fonts';
 import colors from 'styles/colors';
 
@@ -28,7 +28,9 @@ function IdentityList({
 	accountsStore,
 	navigation,
 	route
-}: NavigationAccountIdentityProps<'IdentityList'>): React.ReactElement {
+}: NavigationWithCurrentIdentityAndAccountsStoreProps<
+	'IdentityList'
+>): React.ReactElement {
 	// this is the actual default endpoint
 	const { currentIdentity } = accountsStore.state;
 	const list = useRef(null);
