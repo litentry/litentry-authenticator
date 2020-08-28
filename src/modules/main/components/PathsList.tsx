@@ -22,7 +22,7 @@ import { getAllPaths, groupPaths } from 'utils/identitiesUtils';
 import QRScannerAndDerivationTab from 'components/QRScannerAndDerivationTab';
 import PathCard from 'components/PathCard';
 import Separator from 'components/Separator';
-import { MainScreenLeftHeading } from 'components/ScreenHeading';
+import ScreenHeading, { MainScreenLeftHeading } from 'components/ScreenHeading';
 
 function PathsList({
 	accountsStore,
@@ -66,7 +66,7 @@ function PathsList({
 	return (
 		<SafeAreaViewContainer>
 			<ScrollView testID={testIDs.PathsList.screen}>
-				<MainScreenLeftHeading title="Identity Owners" hasSubtitleIcon={true} />
+				<MainScreenLeftHeading title="Identity Owners" />
 				{(pathsGroups as PathGroup[]).map(pathsGroup =>
 					pathsGroup.paths.length === 1 ? (
 						renderSinglePath(pathsGroup)

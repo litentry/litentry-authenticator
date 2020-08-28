@@ -1,7 +1,31 @@
+import {
+	defaultNetworkKey,
+	SUBSTRATE_NETWORK_LIST
+} from 'constants/networkSpecs';
 import { graphqlServer } from 'constants/servers';
+import { Identity } from 'types/identityTypes';
+
+export function parseBalance(rawBalance: string): string {
+	const networkDecimals = SUBSTRATE_NETWORK_LIST[defaultNetworkKey].decimals;
+	const integer = rawBalance.slice(0, -networkDecimals);
+	const decimal = rawBalance.slice(-networkDecimals, rawBalance.length);
+	return `${integer}.${decimal}`;
+}
 
 function constructQuery(methodName: string, identity: string): string {
 	return `http://${graphqlServer}:4000/graphql?query={${methodName}(identityId:"${identity}")}`;
+}
+
+export function getIpfsIdentityName(
+	identity: string,
+	currentIdentity: Identity
+): string {
+	debugger;
+	if (currentIdentity.ipfs.has(identity)) {
+		const ipfsIdentityMeta = currentIdentity.ipfs.get(identity)!;
+		return ipfsIdentityMeta.name;
+	}
+	return '';
 }
 
 export async function getIpfsAddress(identity: string): Promise<string | null> {

@@ -71,7 +71,10 @@ export type AccountsContextState = {
 	) => Promise<void>;
 	deletePath: (path: string) => void;
 	deleteCurrentIdentity: () => Promise<void>;
-	addIpfsIdentity: (identityHash: string, identityMeta: IpfsIdentity) => void;
+	updateIpfsIdentity: (
+		identityHash: string,
+		identityMeta: IpfsIdentity
+	) => void;
 };
 
 const defaultAccountState = {
@@ -382,7 +385,7 @@ export function useAccountContext(): AccountsContextState {
 		await saveIdentities(newIdentities);
 	}
 
-	function addIpfsIdentity(
+	function updateIpfsIdentity(
 		identityHash: string,
 		identityMeta: IpfsIdentity
 	): void {
@@ -408,7 +411,7 @@ export function useAccountContext(): AccountsContextState {
 		updateNewIdentity,
 		updatePathName,
 		updateSelectedAccount,
-		addIpfsIdentity
+		updateIpfsIdentity
 	};
 }
 

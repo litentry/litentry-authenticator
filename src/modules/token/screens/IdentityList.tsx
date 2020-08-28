@@ -3,10 +3,19 @@ import { FlatList, View } from 'react-native';
 import { Keyring } from '@polkadot/api';
 
 import TokenCard from '../components/TokenCard';
-import { getLastIdentity, useExtrinsics, useIdentities } from '../hooks';
+import {
+	getLastIdentity,
+	useBalance,
+	useExtrinsics,
+	useIdentities
+} from '../hooks';
 
 import LabelTextCard from 'modules/token/components/LabelTextCard';
-import { getIpfsAddress, openIpfsIdentityDb } from 'modules/token/utils';
+import {
+	getIpfsAddress,
+	getIpfsIdentityName,
+	openIpfsIdentityDb
+} from 'modules/token/utils';
 import { dumbMeta } from 'types/identityTypes';
 import { i_arrowOptions } from 'modules/token/styles';
 import ScreenHeading from 'components/ScreenHeading';
@@ -42,6 +51,7 @@ function IdentityList({
 	const identities = useIdentities(ownerMeta.address, updateIndex);
 	const { registerIdentity } = useExtrinsics();
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
+	const balance = useBalance(ownerMeta.address);
 
 	if (ownerMeta === dumbMeta) return <View />;
 	const accountId = generateAccountId({
@@ -53,7 +63,6 @@ function IdentityList({
 		const keyring = new Keyring({ type: 'sr25519' });
 		const seed = await unlockAndReturnSeed(navigation);
 		const newPair = keyring.addFromUri(seed + ownerPath);
-		console.log('pairs are', keyring.pairs);
 		try {
 			const unsub = await registerIdentity().signAndSend(
 				newPair,
@@ -69,7 +78,7 @@ function IdentityList({
 							console.log('last identity is', addedIdentity);
 							const ipfsAddress = await getIpfsAddress(addedIdentity);
 							if (ipfsAddress !== null) {
-								accountsStore.addIpfsIdentity(addedIdentity, {
+								accountsStore.updateIpfsIdentity(addedIdentity, {
 									name: '',
 									address: ipfsAddress
 								});
@@ -131,19 +140,23 @@ function IdentityList({
 				onPress={DeleteAccount}
 				{...i_arrowOptions}
 			/>
+			<LabelTextCard text={balance} label="Current Balance" />
 			<FlatList
 				ref={list}
 				style={styles.content}
 				data={identities}
 				keyExtractor={i => i}
 				ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
-				renderItem={({ item: identity, index }) => (
-					<LabelTextCard
-						text={identity}
-						label={`id_${index}`}
-						onPress={() => navigation.navigate('TokenList', { identity })}
-					/>
-				)}
+				renderItem={({ item: identity, index }) => {
+					const identityName = getIpfsIdentityName(identity, currentIdentity);
+					return (
+						<LabelTextCard
+							text={identity}
+							label={identityName !== '' ? identityName : `id_${index}`}
+							onPress={() => navigation.navigate('TokenList', { identity })}
+						/>
+					);
+				}}
 			/>
 			<PopupModal
 				title="QR Code"

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 
-import TokenCard from '../components/TokenCard';
 import { useTokens } from '../hooks';
 import QrView from '../../../components/QrView';
 
@@ -36,11 +35,11 @@ export function TokenList({
 
 	useEffect(() => {
 		const checkIpfsAddress = async () => {
-			if (!currentIdentity.ipfs?.has(identityHash)) {
+			if (!currentIdentity.ipfs.has(identityHash)) {
 				try {
 					const fetchedIpfsAddress = await getIpfsAddress(identityHash);
 					if (fetchedIpfsAddress !== null) {
-						accountsStore.addIpfsIdentity(identityHash, {
+						accountsStore.updateIpfsIdentity(identityHash, {
 							name: '',
 							address: fetchedIpfsAddress
 						});
@@ -61,7 +60,7 @@ export function TokenList({
 		<SafeAreaViewContainer style={styles.container}>
 			<ScreenHeading title="Identity Related Tokens" />
 			<ButtonIcon
-				title="Show Identity Authentication Code"
+				title="Show Identity Auth QR"
 				onPress={(): void => {
 					setQrTitle('Authentication Code');
 					setQrData('address:' + identityHash.toString());
@@ -72,9 +71,9 @@ export function TokenList({
 			<ButtonIcon
 				title="Change Identity Name"
 				onPress={(): void => {
-					setQrTitle('Authentication Code');
-					setQrData('address:' + identityHash.toString());
-					setModalVisible(true);
+					navigation.navigate('IpfsIdentityManagement', {
+						identity: identityHash
+					});
 				}}
 				{...i_arrowOptions}
 			/>

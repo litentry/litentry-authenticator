@@ -7,8 +7,8 @@ export const i_arrowOptions = {
 	iconSize: fontStyles.i_extra_large.fontSize,
 	iconType: 'antdesign',
 	style: {
-		paddingLeft: 64,
-		paddingTop: 0
+		paddingLeft: 54,
+		paddingTop: 5
 	},
-	textStyle: { ...fontStyles.a_text, color: colors.signal.main }
+	textStyle: { ...fontStyles.a_text, color: colors.signal.main, fontSize: 16 }
 };

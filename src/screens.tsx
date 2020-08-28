@@ -11,6 +11,7 @@ import {
 import * as React from 'react';
 import { View } from 'react-native';
 
+import IpfsIdentityManagement from 'modules/token/screens/IpfsIdentityManagement';
 import Scanner from 'modules/sign/screens/QrScanner';
 import SignedMessage from 'modules/sign/screens/SignedMessage';
 import SignedTx from 'modules/sign/screens/SignedTx';
@@ -117,5 +118,9 @@ export const AppNavigator = (): React.ReactElement => (
 		<ScreenStack.Screen name="QrScanner" component={Scanner} />
 		<ScreenStack.Screen name="SignedMessage" component={SignedMessage} />
 		<ScreenStack.Screen name="SignedTx" component={SignedTx} />
+		<ScreenStack.Screen
+			name="IpfsIdentityManagement"
+			component={IpfsIdentityManagement}
+		/>
 	</ScreenStack.Navigator>
 );

@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import Button from 'components/Button';
 import { SafeAreaScrollViewContainer } from 'components/SafeAreaContainer';
@@ -42,7 +42,7 @@ export default function OnBoardingView({
 			testID={testIDs.Main.noAccountScreen}
 			contentContainerStyle={styles.scrollContent}
 		>
-			<View style={styles.onBoardingWrapper}>
+			<View style={localStyles.main}>
 				<TextButton text="Create" isRecover={false} />
 				<Text style={fontStyles.quote}> or </Text>
 				<TextButton text="recover" isRecover={true} />
@@ -60,3 +60,11 @@ export default function OnBoardingView({
 		</SafeAreaScrollViewContainer>
 	);
 }
+
+const localStyles = StyleSheet.create({
+	main: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		flexWrap: 'wrap'
+	}
+});

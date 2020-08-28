@@ -76,6 +76,11 @@ export type IpfsIdentity = {
 	address: string;
 };
 
+export const dumbIpfsIdentity = {
+	name: '',
+	address: ''
+};
+
 export type Identity = {
 	// encrypted seed include seedPhrase and password
 	encryptedSeed: string;

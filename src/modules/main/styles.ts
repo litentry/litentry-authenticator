@@ -10,10 +10,11 @@ const styles = StyleSheet.create({
 		fontSize: 34
 	},
 	onBoardingWrapper: {
+		flex: 1,
 		alignItems: 'center',
-		justifyContent: 'center',
-		flexDirection: 'row',
-		flexWrap: 'wrap'
+		paddingBottom: 100,
+		justifyContent: 'space-around',
+		flexDirection: 'row'
 	},
 	scrollContent: {
 		flex: 1,

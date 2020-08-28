@@ -71,9 +71,9 @@ export const alertDeleteIdentity = (
 	onDelete: () => any
 ): void => {
 	setAlert(
-		'Delete Identity',
-		`Do you really want to delete this Identity and all the related accounts?
-This identity can only be recovered with its associated recovery phrase.`,
+		'Delete Seed',
+		`Do you really want to delete this seed and all the related accounts?
+This seed can only be recovered with its associated recovery phrase.`,
 		buildAlertDeleteButtons(onDelete, alertTestIDs.deleteIdentity)
 	);
 };

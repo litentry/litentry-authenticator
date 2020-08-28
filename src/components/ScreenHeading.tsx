@@ -95,13 +95,13 @@ export function MainScreenLeftHeading({
 		...baseStyles.t_left
 	};
 	return (
-		<View style={baseStyles.bodyWithIcon}>
+		<View
+			style={[
+				baseStyles.bodyWithIcon,
+				{ paddingTop: 30, paddingLeft: 30, paddingBottom: 15 }
+			]}
+		>
 			<View style={{ alignItems: 'center', flexDirection: 'row' }}>
-				<AccountIcon
-					address={''}
-					network={SERVICES_LIST[SERVICES_KEYS.POLKADOT]}
-					style={baseStyles.networkIcon}
-				/>
 				<View>
 					<Text style={subtitle ? titleStyleWithSubtitle : titleStyle}>
 						{title}

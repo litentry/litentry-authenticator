@@ -51,7 +51,7 @@ function IdentityManagement({
 						await accountsStore.deleteCurrentIdentity();
 						navigateToLandingPage(navigation);
 					} catch (err) {
-						alertError(setAlert, "Can't delete Identity.");
+						alertError(setAlert, "Can't delete seed.");
 					}
 				}
 			);

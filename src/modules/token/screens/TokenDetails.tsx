@@ -65,7 +65,7 @@ export default function TokenDetails({
 			{token && (
 				<>
 					<ButtonIcon
-						title="Show Identity Authentication Code"
+						title="Show Signed Token QR"
 						onPress={(): void => {
 							setModalVisible(true);
 							generateSignedDetails();

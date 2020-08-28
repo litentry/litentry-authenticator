@@ -76,7 +76,7 @@ const substrateNetworkBase: {
 } = {
 	[SubstrateNetworkKeys.LITENTRY]: {
 		color: '#18FFB2',
-		decimals: 18,
+		decimals: 15,
 		genesisHash: SubstrateNetworkKeys.LITENTRY,
 		logo: require('res/img/litentry.png'),
 		order: 1,

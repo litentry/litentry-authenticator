@@ -4,6 +4,8 @@ import U64 from '@polkadot/types/primitive/U64';
 import { useEffect, useState } from 'react';
 import { u64 } from '@polkadot/types';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
+
+import { parseBalance } from 'modules/token/utils';
 // Construct
 const wsProvider = new WsProvider('wss://ws.litentry.com/');
 const alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
@@ -163,7 +165,19 @@ export function useTokenOwner(tokenId: string): string {
 	return owner;
 }
 
-export async function getTokenIdentity(token) {
+export function useBalance(account: string): string {
+	const [balance, setBalance] = useState('-');
+	useEffect(() => {
+		async function queryAccountBalance() {
+			const { data } = await api.query.system.account(account);
+			setBalance(parseBalance(data.free.toString()));
+		}
+		queryAccountBalance();
+	}, [account]);
+	return balance;
+}
+
+export async function getTokenIdentity(token: string) {
 	return await api.query.litentry.authorizedTokenIdentity(token);
 }
 

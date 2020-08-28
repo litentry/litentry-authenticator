@@ -55,4 +55,5 @@ export type RootStackParamList = {
 	TermsAndConditions: undefined;
 	TxDetails: undefined;
 	HashName: { hash: string };
+	IpfsIdentityManagement: { identity: string };
 };
