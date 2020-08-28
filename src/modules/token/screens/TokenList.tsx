@@ -35,7 +35,7 @@ export function TokenList({
 
 	useEffect(() => {
 		const checkIpfsAddress = async () => {
-			if (!currentIdentity.ipfs.has(identityHash)) {
+			if (!currentIdentity.ipfs?.has(identityHash)) {
 				try {
 					const fetchedIpfsAddress = await getIpfsAddress(identityHash);
 					if (fetchedIpfsAddress !== null) {

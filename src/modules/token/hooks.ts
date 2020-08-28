@@ -90,12 +90,6 @@ export function useIdentities(account: string, updateIndex: number): string[] {
 			const unwrappedResult: string[] = results.map(wrappedItem =>
 				wrappedItem.toString()
 			);
-			console.log(
-				'result Array is',
-				results,
-				'call result is',
-				unwrappedResult
-			);
 			setIdentities(unwrappedResult);
 		}
 		console.log('start fetch identities');
@@ -122,12 +116,6 @@ export function useReceivedTokens(account: string): string[] {
 			const unwrappedResult = results.map(wrappedItem =>
 				wrappedItem.toString()
 			);
-			console.log(
-				'result Array is',
-				results,
-				'call result is',
-				unwrappedResult
-			);
 			setTokens(unwrappedResult);
 		}
 		fetchTokens();
@@ -152,12 +140,6 @@ export function useTokens(identityId: string): string[] {
 			const results = await Promise.all(promises);
 			const unwrappedResult = results.map(wrappedItem =>
 				wrappedItem.toString()
-			);
-			console.log(
-				'result Array is',
-				results,
-				'call result is',
-				unwrappedResult
 			);
 			setTokens(unwrappedResult);
 		}

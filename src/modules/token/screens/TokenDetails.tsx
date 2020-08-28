@@ -7,6 +7,11 @@ import Button from '../../../components/Button';
 import { mock } from '../config';
 import { getTokenIdentity } from '../hooks';
 
+import { i_arrowOptions } from 'modules/token/styles';
+import LabelTextCard from 'modules/token/components/LabelTextCard';
+import PopupModal from 'modules/token/components/PopupModal';
+import ScreenHeading from 'components/ScreenHeading';
+import ButtonIcon from 'components/ButtonIcon';
 import colors from 'styles/colors';
 import { NavigationProps } from 'types/props';
 import { asciiToHex } from 'utils/decoders';
@@ -24,6 +29,7 @@ export default function TokenDetails({
 
 	const [qrData, setQrData] = useState('');
 	const [identity, setIdentity] = useState('');
+	const [modalVisible, setModalVisible] = useState(false);
 
 	useEffect(() => {
 		const getIdentity = async () => {
@@ -55,36 +61,27 @@ export default function TokenDetails({
 
 	return (
 		<SafeAreaViewContainer>
-			{token ? (
-				<SafeAreaScrollViewContainer>
-					<Text style={styles.text}>Token QR Code</Text>
-					<Text style={styles.text}>{`Token Hash: ${token}`}</Text>
-					{identity !== '' && (
-						<Text
-							style={styles.text}
-						>{`Token Belongs to Identity: ${identity}`}</Text>
-					)}
-					{qrData !== '' && (
-						<View style={styles.qr}>
-							<QrView data={qrData} />
-						</View>
-					)}
-					<Button
-						title="Generate Signed Token"
-						style={styles.qrButton}
-						onPress={generateMockSigning}
+			<ScreenHeading title="Token Details" />
+			{token && (
+				<>
+					<ButtonIcon
+						title="Show Identity Authentication Code"
+						onPress={(): void => {
+							setModalVisible(true);
+							generateSignedDetails();
+						}}
+						{...i_arrowOptions}
 					/>
-					<Button
-						title="Show Identity QR"
-						style={styles.qrButton}
-						onPress={showIdentityQR}
-					/>
-				</SafeAreaScrollViewContainer>
-			) : (
-				<SafeAreaViewContainer>
-					<Text> No hash specified</Text>
-				</SafeAreaViewContainer>
+					<LabelTextCard text={token} label="Token Hash" />
+					<LabelTextCard text={identity ?? ''} label="Belongs to Identity" />
+				</>
 			)}
+			<PopupModal
+				title="Signed Token QR"
+				visible={modalVisible}
+				setVisible={setModalVisible}
+				innerComponent={<QrView data={qrData} />}
+			/>
 		</SafeAreaViewContainer>
 	);
 }
