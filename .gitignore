@@ -2,7 +2,7 @@ yarn-error.log
 
 # typescript output directory
 dist/
-
+*.aab
 # jest cache
 test/.jest/
 
