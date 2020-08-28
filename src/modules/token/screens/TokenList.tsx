@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 
 import TokenCard from '../components/TokenCard';
 import { useTokens } from '../hooks';
 import QrView from '../../../components/QrView';
 
+import { getIpfsAddress } from 'modules/token/utils';
 import { withCurrentIdentity } from 'utils/HOC';
 import { i_arrowOptions } from 'modules/token/styles';
 import PopupModal from 'modules/token/components/PopupModal';
@@ -25,17 +26,50 @@ export function TokenList({
 	// this is the actual default endpoint
 	const { currentIdentity } = accountsStore.state;
 	const identityHash = route.params.identity;
-	const ipfsAddress = currentIdentity.ipfs.get(identityHash)?.address ?? '';
+	const [ipfsAddress, setIpfsAddress] = useState('');
 	const tokens = useTokens(identityHash);
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
 	const [qrTitle, setQrTitle] = useState<string>('');
 	const [qrData, setQrData] = useState<string>('');
 	console.log('tokens are', tokens);
+
+	useEffect(() => {
+		const checkIpfsAddress = async () => {
+			if (!currentIdentity.ipfs.has(identityHash)) {
+				try {
+					const fetchedIpfsAddress = await getIpfsAddress(identityHash);
+					if (fetchedIpfsAddress !== null) {
+						accountsStore.addIpfsIdentity(identityHash, {
+							name: '',
+							address: fetchedIpfsAddress
+						});
+						setIpfsAddress(fetchedIpfsAddress);
+					}
+				} catch (e) {
+					console.log('can not fetch ipfs address');
+				}
+			} else {
+				setIpfsAddress(currentIdentity.ipfs.get(identityHash)?.address ?? '');
+			}
+		};
+
+		checkIpfsAddress();
+	}, [currentIdentity, identityHash]);
+
 	return (
 		<SafeAreaViewContainer style={styles.container}>
 			<ScreenHeading title="Identity Related Tokens" />
 			<ButtonIcon
 				title="Show Identity Authentication Code"
+				onPress={(): void => {
+					setQrTitle('Authentication Code');
+					setQrData('address:' + identityHash.toString());
+					setModalVisible(true);
+				}}
+				{...i_arrowOptions}
+			/>
+			<ButtonIcon
+				title="Change Identity Name"
 				onPress={(): void => {
 					setQrTitle('Authentication Code');
 					setQrData('address:' + identityHash.toString());
@@ -83,7 +117,7 @@ export default withCurrentIdentity(TokenList);
 
 const styles = {
 	container: {
-		padding: 20
+		padding: 0
 	},
 	content: {
 		flex: 1,

@@ -53,34 +53,38 @@ export default function TokenDetails({
 		setQrData(identity);
 	};
 
-	return token ? (
-		<SafeAreaScrollViewContainer>
-			<Text style={styles.text}>Token QR Code</Text>
-			<Text style={styles.text}>{`Token Hash: ${token}`}</Text>
-			{identity !== '' && (
-				<Text
-					style={styles.text}
-				>{`Token Belongs to Identity: ${identity}`}</Text>
-			)}
-			{qrData !== '' && (
-				<View style={styles.qr}>
-					<QrView data={qrData} />
-				</View>
-			)}
-			<Button
-				title="Generate Signed Token"
-				style={styles.qrButton}
-				onPress={generateMockSigning}
-			/>
-			<Button
-				title="Show Identity QR"
-				style={styles.qrButton}
-				onPress={showIdentityQR}
-			/>
-		</SafeAreaScrollViewContainer>
-	) : (
+	return (
 		<SafeAreaViewContainer>
-			<Text> No hash specified</Text>
+			{token ? (
+				<SafeAreaScrollViewContainer>
+					<Text style={styles.text}>Token QR Code</Text>
+					<Text style={styles.text}>{`Token Hash: ${token}`}</Text>
+					{identity !== '' && (
+						<Text
+							style={styles.text}
+						>{`Token Belongs to Identity: ${identity}`}</Text>
+					)}
+					{qrData !== '' && (
+						<View style={styles.qr}>
+							<QrView data={qrData} />
+						</View>
+					)}
+					<Button
+						title="Generate Signed Token"
+						style={styles.qrButton}
+						onPress={generateMockSigning}
+					/>
+					<Button
+						title="Show Identity QR"
+						style={styles.qrButton}
+						onPress={showIdentityQR}
+					/>
+				</SafeAreaScrollViewContainer>
+			) : (
+				<SafeAreaViewContainer>
+					<Text> No hash specified</Text>
+				</SafeAreaViewContainer>
+			)}
 		</SafeAreaViewContainer>
 	);
 }

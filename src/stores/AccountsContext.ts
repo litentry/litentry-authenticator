@@ -2,14 +2,12 @@ import { default as React, useEffect, useReducer } from 'react';
 
 import {
 	defaultNetworkKey,
-	ETHEREUM_NETWORK_LIST,
 	NetworkProtocols,
 	SUBSTRATE_NETWORK_LIST,
 	UnknownNetworkKeys
 } from 'constants/networkSpecs';
 import { defaultNetworkPrefix } from 'constants/servicesSpecs';
 import {
-	Account,
 	AccountsStoreState,
 	FoundIdentityAccount,
 	Identity,
@@ -34,10 +32,9 @@ import {
 	getNetworkKey,
 	isEthereumAccountId
 } from 'utils/identitiesUtils';
-import { brainWalletAddressWithRef, encryptData } from 'utils/native';
+import { encryptData } from 'utils/native';
 import {
 	CreateSeedRefWithNewSeed,
-	TryBrainWalletAddress,
 	TrySubstrateAddress
 } from 'utils/seedRefHooks';
 import { constructSuriSuffix } from 'utils/suri';
