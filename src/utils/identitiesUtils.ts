@@ -251,7 +251,7 @@ export const getNetworkParams = (
 export const validateDerivedPath = (derivedPath: string): boolean =>
 	pathsRegex.validateDerivedPath.test(derivedPath);
 
-export const getIdentityName = (
+export const getSeedName = (
 	identity: Identity,
 	identities: Identity[]
 ): string => {
@@ -259,7 +259,7 @@ export const getIdentityName = (
 	const identityIndex = identities.findIndex(
 		i => i.encryptedSeed === identity.encryptedSeed
 	);
-	return `Identity_${identityIndex}`;
+	return `Seed_${identityIndex}`;
 };
 
 export const getPathName = (

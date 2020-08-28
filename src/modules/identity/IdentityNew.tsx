@@ -118,7 +118,7 @@ function IdentityNew({
 					small={true}
 				/>
 				<Button
-					title="or create new identity"
+					title="or create new seed"
 					onPress={(): void => {
 						setIsRecover(false);
 					}}
@@ -138,7 +138,7 @@ function IdentityNew({
 				small={true}
 			/>
 			<Button
-				title="or recover existing identity"
+				title="or recover existing Seed"
 				onPress={(): void => setIsRecover(true)}
 				small={true}
 				onlyText={true}
@@ -148,12 +148,12 @@ function IdentityNew({
 
 	return (
 		<KeyboardAwareContainer>
-			<ScreenHeading title={'New Identity'} />
+			<ScreenHeading title={'New Seed'} />
 			<TextInput
 				onChangeText={updateName}
 				testID={testIDs.IdentityNew.nameInput}
 				value={accountsStore.state.newIdentity.name}
-				placeholder="Identity Name"
+				placeholder="Seed Name"
 			/>
 			{isRecover ? renderRecoverView() : renderCreateView()}
 		</KeyboardAwareContainer>

@@ -12,7 +12,7 @@ import { RootStackParamList } from 'types/routes';
 import testIDs from 'e2e/testIDs';
 import colors from 'styles/colors';
 import fontStyles from 'styles/fontStyles';
-import { getIdentityName } from 'utils/identitiesUtils';
+import { getSeedName } from 'utils/identitiesUtils';
 import {
 	unlockAndReturnSeed,
 	navigateToLegacyAccountList,
@@ -76,7 +76,7 @@ function IdentitiesSwitch({}: {}): React.ReactElement {
 		return (
 			<>
 				<ButtonWithArrow
-					title="Manage Identity"
+					title="Manage Seed"
 					onPress={(): Promise<void> =>
 						onIdentitySelectedAndNavigate(identity, 'IdentityManagement')
 					}
@@ -95,7 +95,7 @@ function IdentitiesSwitch({}: {}): React.ReactElement {
 	const renderCurrentIdentityCard = (): React.ReactNode => {
 		if (!currentIdentity) return;
 
-		const currentIdentityTitle = getIdentityName(currentIdentity, identities);
+		const currentIdentityTitle = getSeedName(currentIdentity, identities);
 
 		return (
 			<>
@@ -119,7 +119,7 @@ function IdentitiesSwitch({}: {}): React.ReactElement {
 	const renderNonSelectedIdentity = (
 		identity: Identity
 	): React.ReactElement => {
-		const title = getIdentityName(identity, identities);
+		const title = getSeedName(identity, identities);
 
 		return (
 			<ButtonIcon
@@ -206,7 +206,7 @@ function IdentitiesSwitch({}: {}): React.ReactElement {
 					)}
 
 					<ButtonIcon
-						title="Add Identity"
+						title="Add Seed"
 						testID={testIDs.IdentitiesSwitch.addIdentityButton}
 						onPress={(): void => closeModalAndNavigate('IdentityNew')}
 						iconName="plus"

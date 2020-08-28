@@ -65,7 +65,7 @@ function IdentityManagement({
 	return (
 		<SafeAreaViewContainer>
 			<ScreenHeading
-				title="Manage Identity"
+				title="Manage Seed"
 				headMenu={
 					<PopupMenu
 						testID={testIDs.IdentityManagement.popupMenuButton}
@@ -87,7 +87,7 @@ function IdentityManagement({
 				label="Display Name"
 				onChangeText={onRenameIdentity}
 				value={currentIdentity.name}
-				placeholder="Enter a new identity name"
+				placeholder="Enter a new seed name"
 				focus
 			/>
 		</SafeAreaViewContainer>

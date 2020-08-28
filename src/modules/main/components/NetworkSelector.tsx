@@ -17,7 +17,7 @@ import colors from 'styles/colors';
 import { NavigationWithCurrentIdentityAndAccountsStoreProps } from 'types/props';
 import { alertPathDerivationError } from 'utils/alertUtils';
 import { withCurrentIdentity } from 'utils/HOC';
-import { getExistedServicesKeys, getIdentityName } from 'utils/identitiesUtils';
+import { getExistedServicesKeys, getSeedName } from 'utils/identitiesUtils';
 import {
 	navigateToIdentitiesList,
 	unlockSeedPhrase,
@@ -132,7 +132,7 @@ function NetworkSelector({
 				/>
 			);
 		} else {
-			const identityName = getIdentityName(currentIdentity, identities);
+			const identityName = getSeedName(currentIdentity, identities);
 			return <IdentityHeading title={identityName} />;
 		}
 	};
