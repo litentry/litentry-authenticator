@@ -31,6 +31,9 @@ export default StyleSheet.create({
 		fontSize: 14,
 		textTransform: 'uppercase'
 	},
+	i_extra_large: {
+		fontSize: 24
+	},
 	i_large: {
 		fontSize: 22
 	},

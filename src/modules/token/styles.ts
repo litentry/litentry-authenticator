@@ -4,7 +4,7 @@ import fontStyles from 'styles/fontStyles';
 export const i_arrowOptions = {
 	iconColor: colors.signal.main,
 	iconName: 'arrowright',
-	iconSize: fontStyles.i_medium.fontSize,
+	iconSize: fontStyles.i_extra_large.fontSize,
 	iconType: 'antdesign',
 	style: {
 		paddingLeft: 64,

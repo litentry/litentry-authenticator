@@ -13,7 +13,10 @@ export default {
 	},
 	signal: {
 		error: '#D73400',
-		main: '#FF4077'
+		main: '#38b49c'
+	},
+	theme: {
+		main: '#38b49c'
 	},
 	text: {
 		faded: '#9A9A9A',

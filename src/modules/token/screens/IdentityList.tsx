@@ -5,6 +5,7 @@ import { Keyring } from '@polkadot/api';
 import TokenCard from '../components/TokenCard';
 import { getLastIdentity, useExtrinsics, useIdentities } from '../hooks';
 
+import LabelTextCard from 'modules/token/components/LabelTextCard';
 import { getIpfsAddress, openIpfsIdentityDb } from 'modules/token/utils';
 import { dumbMeta } from 'types/identityTypes';
 import { i_arrowOptions } from 'modules/token/styles';
@@ -116,6 +117,11 @@ function IdentityList({
 		<SafeAreaViewContainer style={styles.container}>
 			<ScreenHeading title="Owned Identities" />
 			<ButtonIcon
+				title="Register New Identity"
+				onPress={registerNewIdentity}
+				{...i_arrowOptions}
+			/>
+			<ButtonIcon
 				title="Show Account QR Code"
 				onPress={(): void => setModalVisible(true)}
 				{...i_arrowOptions}
@@ -132,18 +138,12 @@ function IdentityList({
 				keyExtractor={i => i}
 				ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
 				renderItem={({ item: identity, index }) => (
-					<TokenCard
-						title="id"
-						identity={identity}
-						index={index}
+					<LabelTextCard
+						text={identity}
+						label={`id_${index}`}
 						onPress={() => navigation.navigate('TokenList', { identity })}
-						style={{ paddingBottom: 10 }}
 					/>
 				)}
-			/>
-			<QRScannerAndDerivationTab
-				onPress={registerNewIdentity}
-				title="Register New Identity"
 			/>
 			<PopupModal
 				title="QR Code"

@@ -44,7 +44,7 @@ const ButtonIcon: FunctionComponent<Props> = ({
 		generalView: {
 			display: 'flex',
 			flexDirection: 'row',
-			paddingVertical: 8
+			paddingVertical: 10
 		},
 		iconTitleView: {
 			alignItems: 'center',

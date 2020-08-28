@@ -1,5 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+	Platform,
+	StyleSheet,
+	Text,
+	TouchableNativeFeedback,
+	TouchableNativeFeedbackProps,
+	TouchableOpacity,
+	View
+} from 'react-native';
 
 import colors from 'styles/colors';
 import fontStyles from 'styles/fontStyles';
@@ -8,10 +16,18 @@ export default function LabelTextCard(props: {
 	text: string;
 	label: string;
 	small?: boolean;
+	onPress?: () => any;
 }): React.ReactElement {
-	const { label, small, text } = props;
+	const Touchable: React.ComponentClass<TouchableNativeFeedbackProps> =
+		Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity;
+
+	const { label, small, text, onPress } = props;
 	return (
-		<View style={styles.body}>
+		<Touchable
+			style={styles.body}
+			disabled={onPress === undefined}
+			onPress={onPress ? onPress : () => 1}
+		>
 			<View style={styles.label}>
 				<Text style={fontStyles.t_important}>{label}</Text>
 			</View>
@@ -20,7 +36,7 @@ export default function LabelTextCard(props: {
 					{text}
 				</Text>
 			</View>
-		</View>
+		</Touchable>
 	);
 }
 

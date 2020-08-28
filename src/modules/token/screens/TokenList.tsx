@@ -5,6 +5,7 @@ import TokenCard from '../components/TokenCard';
 import { useTokens } from '../hooks';
 import QrView from '../../../components/QrView';
 
+import LabelTextCard from 'modules/token/components/LabelTextCard';
 import { getIpfsAddress } from 'modules/token/utils';
 import { withCurrentIdentity } from 'utils/HOC';
 import { i_arrowOptions } from 'modules/token/styles';
@@ -100,12 +101,10 @@ export function TokenList({
 				keyExtractor={i => i}
 				ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
 				renderItem={({ item: token, index }) => (
-					<TokenCard
-						title="token"
-						identity={token}
-						index={index}
+					<LabelTextCard
+						text={token}
+						label={`token_${index}`}
 						onPress={() => navigation.navigate('TokenDetails', { token })}
-						style={{ paddingBottom: 10 }}
 					/>
 				)}
 			/>
