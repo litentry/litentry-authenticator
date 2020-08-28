@@ -87,7 +87,7 @@ export default StyleSheet.create({
 		fontSize: 12
 	},
 	t_seed: {
-		borderColor: colors.background.card,
+		borderColor: colors.border.light,
 		borderWidth: 0.8,
 		color: colors.signal.main,
 		fontFamily: fonts.light,

@@ -46,7 +46,7 @@ export default function App(): React.ReactElement {
 						<SeedRefsContext.Provider value={seedRefContext}>
 							<MenuProvider backHandler={true}>
 								<StatusBar
-									barStyle="light-content"
+									barStyle="dark-content"
 									backgroundColor={colors.background.app}
 								/>
 								<CustomAlert />
