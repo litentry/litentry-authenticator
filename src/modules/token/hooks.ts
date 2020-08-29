@@ -7,13 +7,7 @@ import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { parseBalance } from 'modules/token/utils';
 // Construct
 const wsProvider = new WsProvider('wss://ws.litentry.com/');
-const alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
-const testIdentity =
-	'0x53838f9049cd2baa7f81f18962330586ba13d61feb08735f75df4d2bb8518264';
-const token =
-	'0xff1238cdb0e9afdac233cc182faafc1349d4b2c142af161993d6a179fc0cc961';
 let api: ApiPromise;
-const isApiReady = false;
 
 export function useApi(): boolean {
 	const [isApiReady, setApiReady] = useState(false);
@@ -40,8 +34,6 @@ export function useApi(): boolean {
 				});
 				await cryptoWaitReady();
 				setApiReady(true);
-				console.log('rpc endpoints are', api.tx.litentry);
-				console.log('api genesisHash', api.genesisHash.toHex());
 			} catch (error) {
 				console.log('ws connect error: ', error);
 			}

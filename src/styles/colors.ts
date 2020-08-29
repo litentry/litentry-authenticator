@@ -19,7 +19,7 @@ export default {
 		main: '#38b49c'
 	},
 	text: {
-		faded: '#333333',
+		faded: '#777777',
 		main: '#000000'
 	}
 };

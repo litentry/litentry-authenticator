@@ -20,7 +20,6 @@ export function getIpfsIdentityName(
 	identity: string,
 	currentIdentity: Identity
 ): string {
-	debugger;
 	if (currentIdentity.ipfs.has(identity)) {
 		const ipfsIdentityMeta = currentIdentity.ipfs.get(identity)!;
 		return ipfsIdentityMeta.name;

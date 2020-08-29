@@ -28,13 +28,15 @@ export default function LabelTextCard(props: {
 			disabled={onPress === undefined}
 			onPress={onPress ? onPress : () => 1}
 		>
-			<View style={styles.label}>
-				<Text style={fontStyles.t_important}>{label}</Text>
-			</View>
-			<View style={styles.content}>
-				<Text style={small ? fontStyles.t_codeS : fontStyles.t_code}>
-					{text}
-				</Text>
+			<View style={styles.container}>
+				<View style={styles.label}>
+					<Text style={fontStyles.t_important}>{label}</Text>
+				</View>
+				<View style={styles.content}>
+					<Text style={small ? fontStyles.t_codeS : fontStyles.t_code}>
+						{text}
+					</Text>
+				</View>
 			</View>
 		</Touchable>
 	);
@@ -43,6 +45,8 @@ export default function LabelTextCard(props: {
 const styles = StyleSheet.create({
 	body: {
 		backgroundColor: colors.background.app,
+	},
+	container: {
 		flexDirection: 'row'
 	},
 	content: {

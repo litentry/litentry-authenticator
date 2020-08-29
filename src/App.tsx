@@ -40,7 +40,9 @@ export default function App(): React.ReactElement {
 	const accountsContext = useAccountContext();
 	const scannerContext = useScannerContext();
 
-	if (!isApiReady) return <ApiNotLoaded />;
+	if (!isApiReady) return (<SafeAreaProvider>
+		<ApiNotLoaded />
+	</SafeAreaProvider>);
 	return (
 		<SafeAreaProvider>
 			<AccountsContext.Provider value={accountsContext}>
