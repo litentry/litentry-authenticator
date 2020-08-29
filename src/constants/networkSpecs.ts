@@ -75,7 +75,7 @@ const substrateNetworkBase: {
 	[key: string]: Partial<SubstrateNetworkParams>;
 } = {
 	[SubstrateNetworkKeys.LITENTRY]: {
-		color: '#18FFB2',
+		color: '#18ffb2',
 		decimals: 15,
 		genesisHash: SubstrateNetworkKeys.LITENTRY,
 		logo: require('res/img/litentry.png'),
@@ -83,7 +83,7 @@ const substrateNetworkBase: {
 		pathId: 'litentry',
 		prefix: 0,
 		title: 'Litentry',
-		unit: 'LIT'
+		unit: 'LTT'
 	},
 	[SubstrateNetworkKeys.CENTRIFUGE]: {
 		color: '#FCC367',

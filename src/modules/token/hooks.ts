@@ -1,6 +1,5 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import U64 from '@polkadot/types/primitive/U64';
 import { useEffect, useState } from 'react';
 import { u64 } from '@polkadot/types';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
@@ -22,15 +21,6 @@ export function useApi(): boolean {
 		async function init() {
 			try {
 				console.log('start connection');
-				// const socket = new WebSocket('ws://localhost:9944/');
-				// socket.onopen = ev => {
-				// 	console.log('socket is opened !');
-				// 	socket.send('hahahaha');
-				// };
-				// socket.onclose = ev => {
-				// 	console.log('socket is closed !', ev);
-				// };
-				// socket.onmessage = ({ data }) => console.log(data);
 				api = await ApiPromise.create({
 					provider: wsProvider,
 					types: {
