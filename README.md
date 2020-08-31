@@ -2,6 +2,8 @@
  
 > Mobile identity and data hub.
 
+Following this [tutorial](https://www.litentry.com/post/play-litentry-dapps-with-ipfs-part-1) to learn how to use it with Polkadot.js App, Litentry Web Playground and Litentry Data Center
+
 # Development
 
 
