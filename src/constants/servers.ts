@@ -1,1 +1,1 @@
-export const graphqlServer = '52.28.235.180';
+export const graphqlServer = 'graphql.litentry.com';

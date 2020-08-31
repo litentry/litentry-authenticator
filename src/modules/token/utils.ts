@@ -9,11 +9,11 @@ export function parseBalance(rawBalance: string): string {
 	const networkDecimals = SUBSTRATE_NETWORK_LIST[defaultNetworkKey].decimals;
 	const integer = rawBalance.slice(0, -networkDecimals);
 	const decimal = rawBalance.slice(-networkDecimals, rawBalance.length);
-	return `${integer}.${decimal}`;
+	return `${integer === '' ? '0' : integer}.${decimal}`;
 }
 
 function constructQuery(methodName: string, identity: string): string {
-	return `http://${graphqlServer}:4000/graphql?query={${methodName}(identityId:"${identity}")}`;
+	return `https://${graphqlServer}:4000/graphql?query={${methodName}(identityId:"${identity}")}`;
 }
 
 export function getIpfsIdentityName(
