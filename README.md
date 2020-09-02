@@ -2,6 +2,8 @@
  
 > Mobile identity and data hub.
 
+Download app from [Android Play Store](https://play.google.com/store/apps/details?id=com.litentryauthenticator)
+
 Following this [tutorial](https://www.litentry.com/post/play-litentry-dapps-with-ipfs-part-1) to learn how to use it with Polkadot.js App, Litentry Web Playground and Litentry Data Center
 
 # Development
