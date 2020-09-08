@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 
 import { useTokens } from '../hooks';
 import QrView from '../../../components/QrView';
 
+import { AlertStateContext, useAlertContext } from 'stores/alertContext';
 import LabelTextCard from 'modules/token/components/LabelTextCard';
 import { getIpfsAddress } from 'modules/token/utils';
 import { withCurrentIdentity } from 'utils/HOC';
@@ -28,6 +29,7 @@ export function TokenList({
 	const identityHash = route.params.identity;
 	const [ipfsAddress, setIpfsAddress] = useState('');
 	const tokens = useTokens(identityHash);
+	const { setAlert } = useContext(AlertStateContext);
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
 	const [qrTitle, setQrTitle] = useState<string>('');
 	const [qrData, setQrData] = useState<string>('');
@@ -46,6 +48,7 @@ export function TokenList({
 						setIpfsAddress(fetchedIpfsAddress);
 					}
 				} catch (e) {
+					setAlert('Ipfs address error', 'address not fetched:' + e.toString());
 					console.log('can not fetch ipfs address');
 				}
 			} else {

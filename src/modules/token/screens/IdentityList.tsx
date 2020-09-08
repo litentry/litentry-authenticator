@@ -99,7 +99,8 @@ function IdentityList({
 			console.log('e is', e);
 			setAlert(
 				'Transaction Failed',
-				'Please check if the account has enough token, or use Polkadot.js default account like Alice to send some tokens to this account'
+				'Please check if the account has enough token, or use Polkadot.js default account like Alice to send some tokens to this account:' +
+					e.toString()
 			);
 		} finally {
 			// setUpdateIndex(updateIndex + 1);

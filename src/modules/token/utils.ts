@@ -27,7 +27,7 @@ export function getIpfsIdentityName(
 	return '';
 }
 
-export async function getIpfsAddress(identity: string): Promise<string | null> {
+export async function getIpfsAddress(identity: string): Promise<string> {
 	const maximalQuery = 5;
 	let query = 0;
 	let result = null;
@@ -39,15 +39,15 @@ export async function getIpfsAddress(identity: string): Promise<string | null> {
 			const fetchedData = json.data.determineAddress;
 			if (fetchedData.indexOf('/orbitdb') !== -1) {
 				result = fetchedData;
-				break;
+				return result;
 			} else {
 				query++;
 			}
 		} catch (error) {
-			console.error(error);
+			throw new Error('get address error:' + error.toString());
 		}
 	}
-	return result;
+	throw new Error('exceed maximum query time');
 }
 
 export function openIpfsIdentityDb(identity: string): void {

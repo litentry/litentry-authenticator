@@ -44,7 +44,7 @@ export default function LabelTextCard(props: {
 
 const styles = StyleSheet.create({
 	body: {
-		backgroundColor: colors.background.app,
+		backgroundColor: colors.background.app
 	},
 	container: {
 		flexDirection: 'row'

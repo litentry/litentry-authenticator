@@ -132,8 +132,8 @@ android {
         applicationId "com.litentryauthenticator"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1101
-        versionName "1.1.1"
+        versionCode 1102
+        versionName "1.1.2"
         multiDexEnabled true
         missingDimensionStrategy 'react-native-camera', 'general'
     }
